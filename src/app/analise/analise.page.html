@@ -1,0 +1,301 @@
+<ion-content color="s">
+  <div id="analiseForm">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" >
+        <a class="nav-link active " id="tab1" data-toggle="tab" href="#passo1" role="tab" aria-controls="passo1"
+          aria-selected="true">1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab2" data-toggle="tab" href="#passo2" role="tab" aria-controls="passo2"
+          aria-selected="false">2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab3" data-toggle="tab" href="#passo3" role="tab" aria-controls="passo2"
+          aria-selected="false">3</a>
+      </li>
+    </ul>
+
+    <form class="needs-validation" novalidate>
+      <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="passo1" role="tabpanel" aria-labelledby="passo1">
+
+          <div class="form-row">
+            <div class="col-md-12">
+              <label for="validationTooltip01">Qual é o seu nome?</label>
+              <input type="text" class="form-control" placeholder="Digite seu nome completo..." required>
+              <div class="valid-tooltip">
+                Looks good!
+              </div>
+            </div>
+
+          </div>
+          <div class="form-row">
+            <div class="col-md-4 mb-12">
+              <label for="validationTooltip02">Qual sua faixa etária?</label>
+              <select class="custom-select">
+                <option selected>Selecione sua faixa etária</option>
+                <option value="1">menos de 18 anos</option>
+                <option value="2">18 a 21 anos</option>
+                <option value="3">22 a 26 anos</option>
+                <option value="4">27 a 35 anos</option>
+                <option value="5">mais de 35 anos</option>
+              </select>
+            </div>
+            <div class="col-md-2 mb-0"></div>
+            <div class="col-md-5 mb-12">
+              <label for="radioS1">Qual o seu sexo?</label>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="customRadio1">Masculino</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="customRadio2">Feminino</label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="validationTooltip02">Com que frequência você consome chocolate?</label>
+              <select class="custom-select">
+                <option selected>Selecione a frequência você consome chocolate</option>
+                <option value="1">Diariamente</option>
+                <option value="2">1 vez na semana</option>
+                <option value="3">Mensalmente</option>
+                <option value="4">Nunca</option>
+              </select>
+            </div>
+            <button class="btn btn-primary " onclick="show2()">Próximo</button>
+          </div>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="passo2" role="tabpanel" aria-labelledby="passo2">
+          <div class="form-row">
+            <div class="col-md-12">
+              <label for="validationTooltip02">Você está recebendo duas amostras de chocolate. Avalie cada amostra e
+                utilize a escala abaixo para identificar
+                o quanto você gostou/desgostou de cada amostra quanto à cor, sabor, doçura, textura e impressão global.
+                Prove as amostras da esquerda para direita.</label>
+            </div>
+
+            <div class="col-md-12">
+              <div class="card">
+                <h5 class="card-header">
+                  Amostra de chocolate 123
+                </h5>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Cor</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou da cor?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Sabor</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou do sabor?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Doçura</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou da doçura?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Textura</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou da textura?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Impressão Global</label>
+                      <select class="custom-select">
+                        <option selected>Qual sua impressão global?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">
+                  Amostra de chocolate 456
+                </h5>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Cor</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou da cor?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Sabor</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou do sabor?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Doçura</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou da doçura?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Textura</label>
+                      <select class="custom-select">
+                        <option selected>O que você achou da textura?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="validationTooltip02">Impressão Global</label>
+                      <select class="custom-select">
+                        <option selected>Qual sua impressão global?</option>
+                        <option value="9">9. Gostei muitíssimo</option>
+                        <option value="8">8. Gostei muito</option>
+                        <option value="7">7. Gostei moderadamente</option>
+                        <option value="6">6. Gostei ligeiramente</option>
+                        <option value="5">5. Nem gostei / nem desgostei</option>
+                        <option value="4">4. Desgostei ligeiramente</option>
+                        <option value="3">3. Desgostei moderadamente</option>
+                        <option value="2">2. Desgostei muito</option>
+                        <option value="1">1. Desgostei muitíssimo</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="show1()">Anterior </button>
+          <button class="btn btn-primary" onclick="show3()">Próximo</button>
+        </div>
+
+
+        <div class="tab-pane fade" id="passo3" role="tabpanel" aria-labelledby="3">
+          <div class="form-row">
+            <div class="">
+
+            </div>
+            <div class="form-group col-md-12">
+              <label for="validationTooltip02">Agora avalie quanto à sua atitude de compra:</label>
+              <select class="custom-select">
+                <option selected>Qual sua atitude de compra?</option>
+                <option value="5">5. Certamente compraria</option>
+                <option value="4">4. Provavelmente compraria</option>
+                <option value="3">3. Tenho dúvida se compraria</option>
+                <option value="2">2. Provavelmente não compraria</option>
+                <option value="1">1. Certamente não compraria</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="show2()">Anterior </button>
+          <button class="btn btn-primary" type="submit">Responder</button>
+          
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+  <div id="codigoForm">
+    <form class="form-inline">
+      <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+      <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">@</div>
+        </div>
+        <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+
+  </div>
+
+
+</ion-content>

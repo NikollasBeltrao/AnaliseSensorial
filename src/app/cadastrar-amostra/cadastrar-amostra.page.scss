@@ -1,0 +1,55 @@
+small {
+    color: red !important;
+}
+#todo {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px;
+    background-color: gray;
+}
+#form {
+    padding: 10px;
+    max-width: 700px;
+    background-color: white;
+    border-radius: 6px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#btn-sub {
+    float: right;
+    background-color: purple;
+    margin-right: 10px;
+    color: white;
+}
+#btns-foto {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+#btns-foto div{
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+#btns-foto button{
+    background-color: purple;    
+    width: 60px;
+    height: 60px;
+    font-size: 17px;
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+#img {
+    margin-left: 15%;
+    width: 70%;
+    height: 170px;
+}
+#btns-foto button svg {
+    color: yellow;
+    font-size: 30px;
+}

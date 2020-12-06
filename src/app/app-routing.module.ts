@@ -11,6 +11,42 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'analise',
+    loadChildren: () => import('./analise/analise.module').then( m => m.AnalisePageModule)
+  },
+  {
+    path: 'criar-analise',
+    loadChildren: () => import('./criar-analise/criar-analise.module').then( m => m.CriarAnalisePageModule)
+  },
+  {
+    path: 'usuario-logado',
+    loadChildren: () => import('./usuario-logado/usuario-logado.module').then( m => m.UsuarioLogadoPageModule)
+  },
+  {
+    path: 'listar-analises',
+    loadChildren: () => import('./listar-analises/listar-analises.module').then( m => m.ListarAnalisesPageModule)
+  },
+  {
+    path: 'listar-usuarios',
+    loadChildren: () => import('./listar-usuarios/listar-usuarios.module').then( m => m.ListarUsuariosPageModule)
+  },
+  {
+    path: 'listar-respostas',
+    loadChildren: () => import('./listar-respostas/listar-respostas.module').then( m => m.ListarRespostasPageModule)
+  },
+  {
+    path: 'criar-usuario',
+    loadChildren: () => import('./criar-usuario/criar-usuario.module').then( m => m.CriarUsuarioPageModule)
+  },
+  {
+    path: 'cadastrar-amostra',
+    loadChildren: () => import('./cadastrar-amostra/cadastrar-amostra.module').then( m => m.CadastrarAmostraPageModule)
+  },
 ];
 
 @NgModule({

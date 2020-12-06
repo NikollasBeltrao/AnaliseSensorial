@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>criarAnalise</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="todo">
+    <form [formGroup]="fGroup" (ngSubmit)="cadastrar()" id="form">
+      <div class=" form-row">
+        <div class="form-group col-8">
+          <label for="titulo">Nome Amostra</label>
+          <input type="text" formControlName="nome" class="form-control" id="titulo" placeholder="Nome">
+          <small *ngIf="fGroup.controls.nome.value == '' && validar" class="text-muted">*Obrigatório</small>
+        </div>
+        <div class="form-group col-4">
+          <label for="numero">
+            Número
+          </label>
+          <input type="number" formControlName="numero" class="form-control" id="numero" placeholder="100 - 999"
+            min="100" max="999" maxlength="3">
+          <small *ngIf="fGroup.controls.numero.value == '' && validar" class="text-muted">*Obrigatório</small>
+          <small *ngIf="fGroup.controls.numero.invalid && validar && (fGroup.controls.numero.value != '') "
+            class="text-muted">Digite um número entre 100 e 999</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="desc">Descrição</label>
+        <input type="text" formControlName="desc" class="form-control" id="desc" placeholder="Descrição">
+        <small *ngIf="fGroup.controls.desc.value == '' && validar" class="text-muted">*Obrigatório</small>
+      </div>
+      <div class="form-group">
+        <label>Imagem</label>
+        <div id="btns-foto">
+          <div>
+            <button type="button" id="bt1" (click)="takePicture()">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-camera-fill" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                <path fill-rule="evenodd"
+                  d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z" />
+              </svg>
+            </button>
+            <label class="text-muted" for="bt1">Câmera</label>
+          </div>
+          <div>
+            <button type="button" id="bt2" (click)="getGallery()">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-images" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M12.002 4h-10a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1zm-10-1a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-10zm4 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                <path fill-rule="evenodd"
+                  d="M4 2h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1v1a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2h1a1 1 0 0 1 1-1z" />
+              </svg>
+            </button>
+            <label class="text-muted" for="bt2">Galeria</label>
+          </div>
+          
+        </div>
+        <img id="img" src="{{imagem}}" (click)="imgFull()" alt="{{errImg}}">
+      </div>
+      
+      <button id="btn-sub" class="btn" type="submit">Cadastrar</button>
+    </form>
+    
+  </div>
+
+</ion-content>

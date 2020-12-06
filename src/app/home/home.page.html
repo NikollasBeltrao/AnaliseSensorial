@@ -1,20 +1,14 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content>
+  <div id="todo-home">
+    <div id="over">
+      <!--<form [formGroup]="fGroup" (ngSubmit)="teste()">
+        <input type="file" formControlName="file">
+        <button type="submit">adasd</button>
+      </form>-->
+      <img src="/assets/logo.png">
+      <button (click)="goToLogin()">Sou um administrador</button>
+      <button (click)="goToAnalise()">Quero fazer análise sensorial</button>
+    </div>
   </div>
+
 </ion-content>

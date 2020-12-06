@@ -1,0 +1,114 @@
+<ion-header >
+  <ion-toolbar id="head" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <form (ngSubmit)="search()" [formGroup]="searchInp">
+    <ion-searchbar type="text" placeholder="Search" formControlName="search" (keyup)="search()" aria-label="Search">
+    </ion-searchbar>
+    </form>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content id="cont">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Carregando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="listarTrue">
+
+    <ul *ngFor="let user of listUsers" class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{user.nome_user}}</strong>
+          <br>
+          <span>{{user.matricula_user}}</span>
+        </div>
+        <div>
+          <button (click)="mudaralterar()">Alterar</button>
+          <button (click)="mudardeletar()">Excluir</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!--cadastar form-->
+  <form *ngIf="cadastrarTrue">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Email</label>
+        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Password</label>
+        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-row">
+
+      <div class="form-group col-md-4">
+        <label for="inputState">State</label>
+        <select id="inputState" class="form-control">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+
+    </div>
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
+
+  <!--alterar form-->
+  <form *ngIf="alterarTrue">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Email</label>
+        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Password</label>
+        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-row">
+
+      <div class="form-group col-md-4">
+        <label for="inputState">State</label>
+        <select id="inputState" class="form-control">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+
+    </div>
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
+
+  <!--deletar form-->
+  <form *ngIf="deletarTrue">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Email</label>
+        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Password</label>
+        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-row">
+
+      <div class="form-group col-md-4">
+        <label for="inputState">State</label>
+        <select id="inputState" class="form-control">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+
+    </div>
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
+  <button *ngIf="!listarTrue" (click)="mudarlistar()">Listar</button>
+</ion-content>

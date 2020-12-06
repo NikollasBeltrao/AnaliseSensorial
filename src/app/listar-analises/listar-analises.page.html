@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Análises</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Carregando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ul class="list-group" *ngFor=" let a of analises">
+    <li class="list-group-item align-items-start" (click)="goToRespostas(a.id_analise)">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><strong>{{a.titulo_analise}}</strong></h5>
+        <small>{{a.data}}</small>
+      </div>
+
+      <p class="mb-1">{{a.desc_analise}}</p>
+      <strong>{{a.nome_user}}: </strong>
+      <small>{{a.matricula_user}}</small>
+    </li>
+  </ul>
+</ion-content>

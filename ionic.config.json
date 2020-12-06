@@ -1,5 +1,7 @@
 {
   "name": "Analise-Sensorial-app2.0",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
