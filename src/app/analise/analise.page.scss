@@ -5,3 +5,31 @@
 .radioB{
     float: left !important;
 }
+.card-header{
+    font-size: 18px;
+    color: white;
+}
+.desc{
+    margin: 10px;
+}
+.nome{
+    font-weight: 700;
+}
+.card{
+    margin-bottom: 20px;
+}
+.proximo{
+    float: right;
+    right: 0px;
+    margin-right: 0px;
+}
+.butt{
+    width: 100px;
+    height: 40px;
+    color: white;
+    background-color: purple;
+    border-radius: .25rem;
+}
+#ref{
+    z-index: 10;
+}

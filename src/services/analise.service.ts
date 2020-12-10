@@ -22,9 +22,21 @@ export class AnaliseService {
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }
+    getAllAnalise(id){
+        return new Promise<any>((resolve, reject) => {
+            this.http.get(this.server + "/analise/analise.php", { params: { getAllAnalise: id } }).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
+    }
     getAllAnalises() {
         return new Promise<any>((resolve, reject) => {
             this.http.get(this.server + "/analise/analise.php", { params: { getAnalises: "analises" } }).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
+    }
+    getActiveAnalises() {
+        return new Promise<any>((resolve, reject) => {
+            this.http.get(this.server + "/analise/analise.php", { params: { getActiveAnalises: "ActiveAnalises"} }).
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }

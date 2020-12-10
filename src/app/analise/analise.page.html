@@ -1,24 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{analise.titulo_analise ? 'Análise de ' + analise.titulo_analise : 'Análises Disponíveis' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!escolherAnalise" (click)="sair()" title="Sair">
+        <ion-icon name="exit-outline"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content color="s">
-  <div id="analiseForm">
+  <ion-refresher *ngIf="escolherAnalise" slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Carregando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="escolherAnalise">
+    <ul class="list-group" *ngFor=" let a of allAnalises">
+      <li class="list-group-item align-items-start" (click)="getAnalise(a.id_analise)">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1"><strong>{{a.titulo_analise}}</strong></h5>
+          <small>{{a.data}}</small>
+        </div>
+
+        <p class="mb-1">{{a.desc_analise}}</p>
+
+      </li>
+    </ul>
+
+  </div>
+
+  <div id="analiseForm" *ngIf="!escolherAnalise">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" >
-        <a class="nav-link active " id="tab1" data-toggle="tab" href="#passo1" role="tab" aria-controls="passo1"
-          aria-selected="true">1</a>
-      </li>
       <li class="nav-item">
-        <a class="nav-link" id="tab2" data-toggle="tab" href="#passo2" role="tab" aria-controls="passo2"
-          aria-selected="false">2</a>
+        <a class="nav-link active " id="tpasso0" data-toggle="tab" href="#passo0" role="tab" aria-controls="passo0"
+          aria-selected="true"></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="tab3" data-toggle="tab" href="#passo3" role="tab" aria-controls="passo2"
-          aria-selected="false">3</a>
+      <li class="nav-item" *ngFor="let escala of escalas; let j = index">
+        <a class="nav-link" id=tpasso{{j+1}} data-toggle="tab" href=#passo{{j+1}} role="tab" aria-selected="false"></a>
       </li>
     </ul>
 
     <form class="needs-validation" novalidate>
       <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade show active" id="passo1" role="tabpanel" aria-labelledby="passo1">
+        <div class="tab-pane fade show active" id="passo0" role="tabpanel" aria-labelledby="tpasso0">
 
           <div class="form-row">
             <div class="col-md-12">
@@ -55,186 +84,49 @@
               </div>
             </div>
             <div class="col-md-12">
-              <label for="validationTooltip02">Com que frequência você consome chocolate?</label>
+              <label nfIf="" for="validationTooltip02">Com que frequência você consome
+                {{analise.titulo_analise ? analise.titulo_analise : 'undefined' }} ?</label>
               <select class="custom-select">
-                <option selected>Selecione a frequência você consome chocolate</option>
+                <option selected>Selecione a frequência você consome
+                  {{analise.titulo_analise ? analise.titulo_analise : 'undefined' }}</option>
                 <option value="1">Diariamente</option>
                 <option value="2">1 vez na semana</option>
                 <option value="3">Mensalmente</option>
                 <option value="4">Nunca</option>
               </select>
             </div>
-            <button class="btn btn-primary " onclick="show2()">Próximo</button>
-          </div>
 
+          </div>
+          <button *ngIf="!isLast" class="proximo butt" onclick="proximo()">Próximo</button>
         </div>
 
-
-        <div class="tab-pane fade" id="passo2" role="tabpanel" aria-labelledby="passo2">
+        <div class="tab-pane fade" id=passo{{i+1}} role="tabpanel"
+          *ngFor="let escala of escalas; let i = index; first as isFirst; last as isLast">
           <div class="form-row">
             <div class="col-md-12">
-              <label for="validationTooltip02">Você está recebendo duas amostras de chocolate. Avalie cada amostra e
-                utilize a escala abaixo para identificar
-                o quanto você gostou/desgostou de cada amostra quanto à cor, sabor, doçura, textura e impressão global.
-                Prove as amostras da esquerda para direita.</label>
+              <h3 class="nome">{{escala.nome_escala}}</h3>
+              <p class="desc">{{escala.desc_escala}}</p>
             </div>
 
             <div class="col-md-12">
-              <div class="card">
-                <h5 class="card-header">
-                  Amostra de chocolate 123
-                </h5>
+              <div class="card" *ngFor="let amosta of amostras">
+                <label class="card-header bg-purple">
+                  {{amosta.nome_amostra}} {{amosta.numero_amostra}}
+                </label>
                 <div class="card-body">
                   <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Cor</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou da cor?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
+                    <div class="form-group col-md-6" *ngFor="let atributo of escala.atributos">
+                      <label for="validationTooltip02">{{atributo.nome_atributo}}</label>
+                      <select class="custom-select" *ngIf="escala.tipo_escala == 'compra'">
+                        <option selected>Escolha uma opção</option>
+                        <option value="5">5. Certamente compraria</option>
+                        <option value="4">4. Provavelmente compraria</option>
+                        <option value="3">3. Tenho dúvida se compraria</option>
+                        <option value="2">2. Provavelmente não compraria</option>
+                        <option value="1">1. Certamente não compraria</option>
                       </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Sabor</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou do sabor?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Doçura</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou da doçura?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Textura</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou da textura?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Impressão Global</label>
-                      <select class="custom-select">
-                        <option selected>Qual sua impressão global?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div class="card">
-                <h5 class="card-header">
-                  Amostra de chocolate 456
-                </h5>
-                <div class="card-body">
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Cor</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou da cor?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Sabor</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou do sabor?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Doçura</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou da doçura?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Textura</label>
-                      <select class="custom-select">
-                        <option selected>O que você achou da textura?</option>
-                        <option value="9">9. Gostei muitíssimo</option>
-                        <option value="8">8. Gostei muito</option>
-                        <option value="7">7. Gostei moderadamente</option>
-                        <option value="6">6. Gostei ligeiramente</option>
-                        <option value="5">5. Nem gostei / nem desgostei</option>
-                        <option value="4">4. Desgostei ligeiramente</option>
-                        <option value="3">3. Desgostei moderadamente</option>
-                        <option value="2">2. Desgostei muito</option>
-                        <option value="1">1. Desgostei muitíssimo</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="validationTooltip02">Impressão Global</label>
-                      <select class="custom-select">
-                        <option selected>Qual sua impressão global?</option>
+                      <select class="custom-select" *ngIf="escala.tipo_escala == 'hedonica'">
+                        <option selected>Escolha uma opção</option>
                         <option value="9">9. Gostei muitíssimo</option>
                         <option value="8">8. Gostei muito</option>
                         <option value="7">7. Gostei moderadamente</option>
@@ -252,48 +144,15 @@
               </div>
             </div>
           </div>
-          <button class="btn btn-primary" onclick="show1()">Anterior </button>
-          <button class="btn btn-primary" onclick="show3()">Próximo</button>
+          <button class="anterior butt" onclick="anterior()">Anterior </button>
+          <button *ngIf="!isLast" class="proximo butt" onclick="proximo()">Próximo</button>
         </div>
 
 
-        <div class="tab-pane fade" id="passo3" role="tabpanel" aria-labelledby="3">
-          <div class="form-row">
-            <div class="">
 
-            </div>
-            <div class="form-group col-md-12">
-              <label for="validationTooltip02">Agora avalie quanto à sua atitude de compra:</label>
-              <select class="custom-select">
-                <option selected>Qual sua atitude de compra?</option>
-                <option value="5">5. Certamente compraria</option>
-                <option value="4">4. Provavelmente compraria</option>
-                <option value="3">3. Tenho dúvida se compraria</option>
-                <option value="2">2. Provavelmente não compraria</option>
-                <option value="1">1. Certamente não compraria</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn btn-primary" onclick="show2()">Anterior </button>
-          <button class="btn btn-primary" type="submit">Responder</button>
-          
-        </div>
       </div>
     </form>
 
-
-  </div>
-  <div id="codigoForm">
-    <form class="form-inline">
-      <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-      <div class="input-group mb-2 mr-sm-2">
-        <div class="input-group-prepend">
-          <div class="input-group-text">@</div>
-        </div>
-        <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-      </div>
-      <button type="submit" class="btn btn-primary mb-2">Submit</button>
-    </form>
 
   </div>
 
