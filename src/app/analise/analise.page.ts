@@ -1,4 +1,6 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 @Component({
   selector: 'app-analise',
@@ -7,24 +9,31 @@ import { AnaliseService } from 'src/services/analise.service';
 })
 export class AnalisePage implements OnInit {
   analise;
+  respostas = [];
   allAnalises: Array<any>;
   amostras: Array<any>;
   escalas: Array<any>
   escolherAnalise = true;
-  constructor(private analiseService: AnaliseService) {
+  a;
+  constructor(private analiseService: AnaliseService, public loading: LoadingController) {
     this.analise = {};
+    this.allAnalises = [];
   }
 
   ngOnInit() {
     this.carregarAnalises();
   }
-  sair(){
+  sair() {
     this.escolherAnalise = true;
     this.analise = {};
     this.amostras = [];
     this.escalas = [];
   }
   async getAnalise(id) {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
     await this.analiseService.getAllAnalise(id).then(data => {
       if (data[0]) {
         this.analise = data[0];
@@ -33,12 +42,40 @@ export class AnalisePage implements OnInit {
       }
     });
     this.escolherAnalise = false;
+    let amostras = [];
+    this.amostras.forEach(amostra => {
+      let escalas = [];
+      amostra.escalas.forEach(escala => {
+        let respostas = [];
+        escala.atributos.forEach(atributo => {
+          respostas.push({ posicao: atributo.posicao_atributo, valor: '' });
+        });
+        escalas.push({ id: escala.id_escala, respostas: respostas });
+      });
+      amostras.push({ id: amostra.id_amostra, escalas: escalas });
+    });
+    this.respostas = amostras;
+    load.dismiss();
+    console.log(this.respostas);
   }
   async carregarAnalises() {
     await this.analiseService.getActiveAnalises().then(res => {
-      if(res){
+      if (res) {
         this.allAnalises = res;
+        console.log(this.allAnalises);
       }
+    });
+  }
+  ad() {
+    console.log(this.respostas);
+  }
+  submit() {
+
+    let form = new FormData();
+    form.append("saveRespostas", (JSON.stringify(this.respostas)));
+    console.log((form));
+    this.analiseService.saveRespostas(form).then(res => {
+      console.log("asasd", (res));
     });
   }
   doRefresh(event) {
@@ -46,6 +83,7 @@ export class AnalisePage implements OnInit {
       this.carregarAnalises();
       event.target.complete();
     }, 2000);
+
   }
 
 

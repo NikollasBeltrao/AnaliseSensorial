@@ -22,7 +22,7 @@ export class AnaliseService {
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }
-    getAllAnalise(id){
+    getAllAnalise(id) {
         return new Promise<any>((resolve, reject) => {
             this.http.get(this.server + "/analise/analise.php", { params: { getAllAnalise: id } }).
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
@@ -36,7 +36,7 @@ export class AnaliseService {
     }
     getActiveAnalises() {
         return new Promise<any>((resolve, reject) => {
-            this.http.get(this.server + "/analise/analise.php", { params: { getActiveAnalises: "ActiveAnalises"} }).
+            this.http.get(this.server + "/analise/analise.php", { params: { getActiveAnalises: "ActiveAnalises" } }).
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }
@@ -50,14 +50,27 @@ export class AnaliseService {
         form.append("saveAnalise", "saveAnalise");
         return new Promise<any>((resolve, reject) => {
             this.http.post(this.server + "/analise/analise.php", form).
-            subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
-    });
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
     }
     saveAmostra(form) {
         form.append("saveAmostra", "saveAmostra");
         return new Promise<any>((resolve, reject) => {
-        this.http.post(this.server + "/analise/analise.php", form).
-        subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
-});
+            this.http.post(this.server + "/analise/analise.php", form).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
+    }
+    changeStatus(form) {
+        form.append("changeStatus", "changeStatus");
+        return new Promise<any>((resolve, reject) => {
+            this.http.post(this.server + "/analise/analise.php", form ).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
+    }
+    saveRespostas(form){        
+        return new Promise<any>((resolve, reject) => {
+            this.http.post(this.server + "/analise/analise.php", form ).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
     }
 }

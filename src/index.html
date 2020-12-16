@@ -32,6 +32,7 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+  
 </head>
 
 <body>
@@ -45,7 +46,7 @@
 
     }
     function proximo() {
-      if ($("#tpasso" + (tab + 1 )).length != 0) {
+      if ($("#tpasso" + (tab + 1)).length != 0) {
         tab = tab + 1;
         show(tab);
       }
@@ -53,8 +54,9 @@
     }
     function show(t) {
       var a = $("#tpasso" + t).tab("show");
-    }  
+    }
   </script>
+
   <app-root></app-root>
 </body>
 
