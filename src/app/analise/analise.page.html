@@ -56,7 +56,7 @@
           <div class="form-row">
             <div class="col-md-12">
               <label for="validationTooltip01">Qual é o seu nome?</label>
-              <input type="text" class="form-control" placeholder="Digite seu nome completo..." required>
+              <input type="text" class="form-control" [(ngModel)]="respostas[0].nome" name="nome" placeholder="Digite seu nome completo..." required>
               <div class="valid-tooltip">
                 Looks good!
               </div>
@@ -66,13 +66,13 @@
           <div class="form-row">
             <div class="col-md-4 mb-12">
               <label for="validationTooltip02">Qual sua faixa etária?</label>
-              <select class="custom-select">
+              <select class="custom-select" [(ngModel)]="respostas[0].faixa" name="faixa">
                 <option selected>Selecione sua faixa etária</option>
-                <option value="1">menos de 18 anos</option>
-                <option value="2">18 a 21 anos</option>
-                <option value="3">22 a 26 anos</option>
-                <option value="4">27 a 35 anos</option>
-                <option value="5">mais de 35 anos</option>
+                <option value="menos de 18 anos">menos de 18 anos</option>
+                <option value="18 a 21 anos">18 a 21 anos</option>
+                <option value="22 a 26 anos">22 a 26 anos</option>
+                <option value="27 a 35 anos">27 a 35 anos</option>
+                <option value="mais de 35 anos">mais de 35 anos</option>
               </select>
             </div>
             <div class="col-md-2 mb-0"></div>
@@ -90,7 +90,7 @@
             <div class="col-md-12">
               <label nfIf="" for="validationTooltip02">Com que frequência você consome
                 {{analise.titulo_analise ? analise.titulo_analise : 'undefined' }} ?</label>
-              <select class="custom-select">
+              <select class="custom-select" [(ngModel)]="respostas[0].consumo" name="consumo">
                 <option selected>Selecione a frequência você consome
                   {{analise.titulo_analise ? analise.titulo_analise : 'undefined' }}</option>
                 <option value="1">Diariamente</option>
@@ -121,7 +121,7 @@
                   <div class="form-row">
                     <div class="form-group col-md-6" *ngFor="let atributo of escala.atributos; let j = index">
                       <label for="validationTooltip02">{{atributo.nome_atributo}}</label>
-                      <select class="custom-select" [(ngModel)]="respostas[a].escalas[i].respostas[j].valor" name="a" *ngIf="escala.tipo_escala == 'compra'">
+                      <select class="custom-select" [(ngModel)]="respostas[0].amostras[a].escalas[i].respostas[j].valor" name="a" *ngIf="escala.tipo_escala == 'compra'">
                         <option selected>Escolha uma opção</option>
                         <option value="5">5. Certamente compraria</option>
                         <option value="4">4. Provavelmente compraria</option>
@@ -129,7 +129,7 @@
                         <option value="2">2. Provavelmente não compraria</option>
                         <option value="1">1. Certamente não compraria</option>
                       </select>
-                      <select class="custom-select" [(ngModel)]="respostas[a].escalas[i].respostas[j].valor" name="b" *ngIf="escala.tipo_escala == 'hedonica'">
+                      <select class="custom-select" [(ngModel)]="respostas[0].amostras[a].escalas[i].respostas[j].valor" name="b" *ngIf="escala.tipo_escala == 'hedonica'">
                         <option selected>Escolha uma opção</option>
                         <option value="9">9. Gostei muitíssimo</option>
                         <option value="8">8. Gostei muito</option>

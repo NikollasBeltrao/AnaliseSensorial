@@ -54,7 +54,7 @@ export class AnalisePage implements OnInit {
       });
       amostras.push({ id: amostra.id_amostra, escalas: escalas });
     });
-    this.respostas = amostras;
+    this.respostas.push({analise: id, nome: '', faixa: '', consumo: '', amostras: amostras});
     load.dismiss();
     console.log(this.respostas);
   }
@@ -72,10 +72,10 @@ export class AnalisePage implements OnInit {
   submit() {
 
     let form = new FormData();
-    form.append("saveRespostas", (JSON.stringify(this.respostas)));
+    form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
     console.log((form));
     this.analiseService.saveRespostas(form).then(res => {
-      console.log("asasd", (res));
+      console.log((res));
     });
   }
   doRefresh(event) {
