@@ -55,6 +55,7 @@
     position: relative;
     //border: solid 1px red;
     height: 40px;
+    margin: 0px !important;
 }
 .titulo{
     font-size: 19px;
@@ -75,17 +76,27 @@
     height: 23px;
     font-size: 20px;
 }
+.list-group{
+  background-color: rgb(121, 216, 200);
+  padding: 20px 10px 20px 10px !important;
+}
 .list-group, .list-group-item{
   margin: 0px;
   padding: 0px;
 }
 .list-group-item{
     margin-top: 20px;
+    border-radius: 10px;
 }
 .todo-card{
-    padding: 15px;
+    padding: 15px 15px 0px 15px;
+    
 }
 .data {
     border-top: solid 1px #DFDFDF;
     border-bottom: solid 1px #DFDFDF;
+    border-radius: 0px 0px 10px 10px;
+}
+.desc {
+  text-align: justify;
 }

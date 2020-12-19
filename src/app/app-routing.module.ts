@@ -47,6 +47,14 @@ const routes: Routes = [
     path: 'cadastrar-amostra',
     loadChildren: () => import('./cadastrar-amostra/cadastrar-amostra.module').then( m => m.CadastrarAmostraPageModule)
   },
+  {
+    path: 'alterar-analise',
+    loadChildren: () => import('./alterar-analise/alterar-analise.module').then( m => m.AlterarAnalisePageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
 ];
 
 @NgModule({

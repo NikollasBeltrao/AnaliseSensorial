@@ -6,10 +6,26 @@
     justify-content: center;
 }
 #cont button{
-    background-color: purple;
-    border-radius: 3px;
-    width: 80%;
-    height: 48px;
-    color: white;
-    margin-top: 30px;
+    //background-color: purple;
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    color: white;   
+    //border: solid 2px rgb(197, 197, 197); 
+    //background-image: linear-gradient(rgba(145, 145, 145, 0.5), rgba(112, 112, 112, 0.4)), url('https://img.icons8.com/cotton/2x/edit.png') ;
+    //background-repeat: no-repeat;
+    //background-size: 70%;
+    //background-position: center;
+    outline: thin dotted;
+      outline: 0px auto -webkit-focus-ring-color;
+      outline-offset: 0px;
+}
+#btns{
+    width: 100vw;
+    height: auto;
+    padding: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;   
 }

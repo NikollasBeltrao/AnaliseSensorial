@@ -1,9 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Análises</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon  class="icon-bar" name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -32,8 +40,7 @@
         </div>
         <br>
         <strong>Descrição:</strong>
-        <p class="mb-1">{{a.desc_analise}} asdasd as asd asdjas ad asdf dsalf sdfsfsdlf sdlfsd sdlf sdlfsdlfmsdlfm
-          sdlfsdlfsldfsdlfsdlf sd sd fsdmf</p>
+        <p class="mb-1" class="desc">{{a.desc_analise}}</p>
 
       </div>
       <div class="data text-muted text-center">

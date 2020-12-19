@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goHome()">
+        <ion-icon class="icon-bar" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <form>
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="usuario.nome_user"
+          placeholder="Digite o nome do estudante">
+      </div>
+      <div class="form-group">
+        <label for="mat">Matrícula</label>
+        <input type="text" class="form-control" id="mat" name="mat" [(ngModel)]="usuario.matricula_user"
+          placeholder="Digite a matrícula do estudante">
+      </div>   
+      <div class="form-group">
+        <label for="senha">Alterar senha</label>
+        <input type="password" class="form-control" id="senha" name="senha" [(ngModel)]="senha"
+         placeholder="Digite sua senha atual" (keyup)="verificarSenha()">
+        <small *ngIf="senhaIncorreta && validarSenha" id="errsenha" class="form-text text-muted red">*Senha incorreta</small>
+      </div>
+      <div class="form-group">
+        <label for="nsenha">Nova senha</label>
+        <input type="password" class="form-control" id="nsenha" name="nsenha" [(ngModel)]="novaSenha"
+         placeholder="Digite a nova senha" [disabled]="senhaIncorreta" >       
+         <small id="helpsenha" class="form-text text-muted">*Sua senha deve ter entre 4 - 10 caracters</small> 
+         <small *ngIf="novaSenhaIncorreta && validarNovaSenha" id="errsenha" class="form-text text-muted red">*Senha Inválida</small>
+      </div>
+      <div class="form-group">
+        <label for="nrsenha">Confirme</label>
+        <input type="password" class="form-control" id="rnsenha" name="nrsenha" [(ngModel)]="confSenha"
+         placeholder="Sonfirme a senha" [disabled]="senhaIncorreta">                 
+         <small *ngIf="!confirmarSenha && validarNovaSenha" id="errrsenha" class="form-text text-muted red">*As senhas devem ser iguais</small>
+      </div>  
+      <button *ngIf="!senhaIncorreta" class="btn" type="submit" (click)="verificarNovaSenha()">Alterar dados</button>
+    </form>
+    
+  </div>
+</ion-content>

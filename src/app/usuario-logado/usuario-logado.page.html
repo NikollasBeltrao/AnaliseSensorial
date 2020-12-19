@@ -1,19 +1,30 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{usuario.nome_user}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon class="icon-bar" name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div id="cont">
     <h5>Bem-vindo(a) {{usuario.nome_user}}</h5>
-    <button (click)="listarAnalises()">Ver análises</button>
-    <button (click)="cadastrarAnalise()">Nova análise</button>
-    <button *ngIf="usuario.permissoes >= 3" (click)="listarUsuarios()">Ver usuários</button>
-    <button *ngIf="usuario.permissoes >= 3" (click)="cadastrarUsuario()">Novo usuário</button>
+    <div id="btns">
+      <button (click)="listarAnalises()" style="background-color: crimson;">Ver análises</button>
+      <button (click)="cadastrarAnalise()" style="background-color: green;">Nova análise</button>
+      <button *ngIf="usuario.permissoes >= 2" (click)="listarUsuarios()" style="background-color: blue;">Ver usuários</button>
+      <button *ngIf="usuario.permissoes >= 2" (click)="cadastrarUsuario()" style="background-color: chocolate;">Novo usuário</button>
+    </div>
   </div>
 
 </ion-content>

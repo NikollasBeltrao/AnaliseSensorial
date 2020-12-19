@@ -27,7 +27,9 @@
   margin-bottom: 100px;
 }
 #over button{
-  
+  outline: thin dotted;
+  outline: 0px auto -webkit-focus-ring-color;
+  outline-offset: 0px;
   width: 300px;    
   
   font-size: 17px;

@@ -1,9 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>listar-respostas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon  class="icon-bar" name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon  class="icon-bar" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -34,23 +42,23 @@
         <table class="table table-bordered" >
           <thead class="thead-dark">
             <tr>
-              <th scope="col" colspan="3">Nome</th>
               <th scope="col">Faixa etária</th>
               <th scope="col">Consumo</th>
+              <th scope="col" *ngFor=" let atributo of escala.atributos">{{atributo.nome_atributo}}</th>    
             </tr>
             
           </thead>
           <tbody *ngFor=" let escalaR of escala.escala_resposta">
             <tr>
-              <th scope="row" colspan="3">{{escalaR.nome_aluno}}</th>
               <td>{{escalaR.faixa_etaria}}</td>            
               <td>{{escalaR.frequencia_consumo}}</td>
+              <td *ngFor=" let resposta of escalaR.respostas">{{resposta.valor_resposta}}</td>
             </tr>
             <tr class="bg-secondary">
-              <th scope="col" *ngFor=" let atributo of escala.atributos">{{atributo.nome_atributo}}</th>                        
+                                  
             </tr>
             <tr>
-              <td *ngFor=" let resposta of escalaR.respostas">{{resposta.valor_resposta}}</td>
+              
             </tr>
           </tbody>         
         </table>

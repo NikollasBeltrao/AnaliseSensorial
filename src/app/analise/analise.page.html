@@ -1,17 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{analise.titulo_analise ? 'Análise de ' + analise.titulo_analise : 'Análises Disponíveis' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="!escolherAnalise" (click)="sair()" title="Sair">
-        <ion-icon name="exit-outline"></ion-icon>
+        <ion-icon class="icon-bar" name="exit-outline"></ion-icon>
       </ion-button>
-
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-refresher *ngIf="escolherAnalise" slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"

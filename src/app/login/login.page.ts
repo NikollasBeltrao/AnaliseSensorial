@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { IfStmt } from '@angular/compiler';
 import { Usuario } from 'src/modal/usuario';
 import { UsuarioService } from 'src/services/usuario.service';
 
@@ -19,7 +17,7 @@ export class LoginPage implements OnInit {
   validar = false;
   usuario: Usuario;
   fGroup: FormGroup;
-  constructor(private http: HttpClient, public formBuilder: FormBuilder, private route: Router, public loading: LoadingController,
+  constructor(public formBuilder: FormBuilder, private route: Router, public loading: LoadingController,
     public usuarioService: UsuarioService) {
     this.fGroup = this.formBuilder.group({
       matricula: new FormControl('', Validators.required),
