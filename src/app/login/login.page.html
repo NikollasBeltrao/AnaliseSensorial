@@ -3,19 +3,21 @@
   <div id="todo-home">
     <div id="over">
       <div id="cont">
-        <button type="button">
-          <ion-icon name="arrow-back-outline" (click)="back()"></ion-icon>
-        </button>
         <form [formGroup]="fGroup" (ngSubmit)="login()">
-
+          <div id="topoForm">
+            <button type="button" id="btnHome">
+              <ion-icon name="home-outline" (click)="back()"></ion-icon>
+            </button>
+            <h2>Login</h2>
+          </div>
           <input type="text" formControlName="matricula" placeholder="Matrícula">
 
           <input type="password" formControlName="senha" placeholder="Senha">
 
-          <span *ngIf="fGroup.invalid && validar">*Preencha todos os campos</span>
+          <small *ngIf="fGroup.invalid && validar">*Preencha todos os campos</small>
+          <small>{{error.message}}</small>
+          <button id="subBtn" [disabled]="fGroup.invalid" type="submit">Entrar</button>
 
-          <button [disabled]="fGroup.invalid" type="submit">Entrar</button>
-          <span>{{error.message}}</span>
         </form>
       </div>
     </div>

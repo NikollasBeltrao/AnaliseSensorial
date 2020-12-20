@@ -1,12 +1,14 @@
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button (click)="sair()" title="Sair">
+        <ion-icon style="font-size: 30px;" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>{{analise.titulo_analise ? 'Análise de ' + analise.titulo_analise : 'Análises Disponíveis' }}</ion-title>
+    <ion-title>{{analise.titulo_analise ? analise.titulo_analise : 'Análises Disponíveis' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button *ngIf="!escolherAnalise" (click)="sair()" title="Sair">
-        <ion-icon class="icon-bar" name="exit-outline"></ion-icon>
+      <ion-button (click)="goHome()" title="Sair">
+        <ion-icon class="icon-bar" name="home-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -37,7 +39,7 @@
 
   </div>
 
-  <div id="analiseForm" *ngIf="!escolherAnalise">
+  <div id="analiseForm" *ngIf="!escolherAnalise && respostas[0]">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active " id="tpasso0" data-toggle="tab" href="#passo0" role="tab" aria-controls="passo0"
@@ -101,7 +103,7 @@
             </div>
 
           </div>
-          <button *ngIf="!isLast" class="proximo butt" onclick="proximo()">Próximo</button>
+          <button class="proximo butt" onclick="proximo()">Próximo</button>
         </div>
 
         <div class="tab-pane fade" id=passo{{i+1}} role="tabpanel"
@@ -148,7 +150,6 @@
               </div>
             </div>
           </div>
-          <button (click)="ad()">asdadsd</button>
           <button class="anterior butt" onclick="anterior()">Anterior </button>
           <button *ngIf="!isLast" class="proximo butt" onclick="proximo()">Próximo</button>
           <button *ngIf="isLast" class="" (click)="submit()">Finalizar</button>

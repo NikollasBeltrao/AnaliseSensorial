@@ -129,5 +129,11 @@ export class CadastrarAmostraPage implements OnInit {
       })
 
   }
-
+  goHome(){
+    this.router.navigate(['home']);
+  }
+  goPerfil(){
+    
+    this.router.navigate(["perfil", {id_user: this.idUser}]);
+  }
 }

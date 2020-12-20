@@ -1,7 +1,6 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { error } from 'protractor';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 
 @Component({
@@ -12,47 +11,85 @@ import { AnaliseService } from 'src/services/analise.service';
 export class ListarAnalisesPage implements OnInit {
   analises: Array<any>;
   goToResposta = true;
-  constructor(private analiseService: AnaliseService, private route: Router) { }
+  idUser = '';
+  constructor(private analiseService: AnaliseService, private route: Router, private active: ActivatedRoute,
+    public loading: LoadingController, public alertController: AlertController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.load();
-  }
-  load(){
-    this.analiseService.getAllAnalises().then(data => {
-      this.analises = data;
-      console.log(data);
+    await this.active.params.subscribe(params => {
+      this.idUser = params["id_user"];
     });
   }
-  doRefresh(event){
+  async load() {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
+    await this.analiseService.getAllAnalises().then(data => {
+      this.analises = data;
+    }, err => {
+      this.presentAlert("Erro ao alterar o status");
+    });
+    load.dismiss();
+  }
+  doRefresh(event) {
     setTimeout(async () => {
       await this.load();
       event.target.complete();
     }, 2000);
   }
-  goToRespostas(id){    
-      this.route.navigate(['listar-respostas', {id: id}]);
+  goToRespostas(id) {
+    this.route.navigate(['listar-respostas', { id: id, id_user: this.idUser }]);
   }
-  switch(e, id){
-    var novoStatus  = 0;
-    if(e.target.checked){
+  async switch(e, id) {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
+    var novoStatus = 0;
+    if (e.target.checked) {
       novoStatus = 1;
     }
     var form = new FormData();
     form.append("id", id);
-    form.append("novoStatus", novoStatus+'');
-    this.analiseService.changeStatus(form).then(res => {
-      console.log(res)
+    form.append("novoStatus", novoStatus + '');
+    await this.analiseService.changeStatus(form).then(res => {
     }, err => {
-      alert("Erro ao alterar o status");
-      if(novoStatus == 1){
+      if (novoStatus == 1) {
         e.target.checked = false;
       }
       else {
         e.target.checked = true;
       }
-    }
-    );
-    console.log(id);
+      this.presentAlert("Erro ao alterar o status");
+    });
+    load.dismiss();
   }
 
+  goHome() {
+    this.route.navigate(["home"]);
+  }
+  goPerfil() {
+
+    this.route.navigate(["perfil", { id_user: this.idUser }]);
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'alerta',
+      header: "Erro",
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alertBtn',
+          handler: () => {
+            console.log('ok');
+          }
+        }
+      ],
+    });
+    await alert.present();
+  }
 }

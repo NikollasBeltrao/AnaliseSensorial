@@ -16,7 +16,7 @@
      
   }
   #cont{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     position: relative;
   }
@@ -25,34 +25,65 @@
     top:50%;
     margin-left:-150px; /* Metade do valor da Largura */
     margin-top:-80px; /* Metade da valor da Altura */
-    position:absolute;
+    position: relative;
     background-color: rgba(255,255,255,0.7);
     width: 300px;
     height: 160;
     border-radius: 6px;
-    padding: 20px;
-    margin-bottom: 100px;
+    padding: 0px;
+    padding-bottom: 20px;
     align-items: center;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
   }
-  #cont button:first-child{
-    background-color: purple;
-    border-radius: 5px;
-    width: 55px;
-    height: 40px;
+  
+  #topoForm{
+    position: relative ;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 45px;
+    width: 100%;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    padding: 0px;
+    margin-bottom: 20px;
+    background-color:#6DBBAA;
+    border-radius: 6px 6px 0px 0px;
+  }
+  #topoForm h2{
+    position: absolute;
+    left: 20px;
+    line-height: 45px;
+    padding: auto;   
+    margin: 0px;
+    height: 100%;
+    width: auto;    
+    color: white;
+  }
+  #btnHome{
+    background-color:#6DBBAA;
+    border-radius: 6px;
+    width: 50px;
+    height: 100%;
     color: white;
     position: absolute;
-    margin-top: 20px;
-    font-size: 18px;
-    left: 0px;
+    top: 0px;
+    font-size: 27px;
+    right: 0px;
     outline: thin dotted;
     outline: 0px auto -webkit-focus-ring-color;
     outline-offset: 0px;
   }
-  #over form button{
+  #btnHome:focus{
+    background-color: rgba(255, 255, 255, 0.658);
+  }
+  #subBtn{
       border: solid 1px  rgb(87, 86, 86);
       background-color: purple;
       border-radius: 3px;
@@ -70,17 +101,18 @@
     border: solid rgb(87, 86, 86) 1px;
     border-radius: 3px;
     margin-bottom: 15px;
+    width: 200px;
     height: 30px;
     background-color: transparent;
    
 }
 #over form input:focus{
   outline: thin dotted;
-  outline: 1px auto rgba(64, 171, 204, 0.7);
+  outline: 1px auto #6DBBAA;
   border: none;
   outline-offset: 0px;
 }
-#over form span{
+#over form small{
     color: red;
     width: 90%;
     margin-bottom: 5px;  

@@ -1,6 +1,8 @@
 import { stringify } from '@angular/compiler/src/util';
+import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { LoadingController, NavController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 @Component({
   selector: 'app-analise',
@@ -15,7 +17,8 @@ export class AnalisePage implements OnInit {
   escalas: Array<any>
   escolherAnalise = true;
   a;
-  constructor(private analiseService: AnaliseService, public loading: LoadingController) {
+  constructor(private analiseService: AnaliseService, public loading: LoadingController, private router: Router,
+    public alertController: AlertController) {
     this.analise = {};
     this.allAnalises = [];
   }
@@ -23,7 +26,27 @@ export class AnalisePage implements OnInit {
   ngOnInit() {
     this.carregarAnalises();
   }
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'alerta',
+      header: "Erro",
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alertBtn',
+          handler: () => {
+            console.log('ok');
+          }
+        }
+      ],
+    });
+    await alert.present();
+  }
   sair() {
+    if (this.escolherAnalise) {
+      this.goHome();
+    }
     this.escolherAnalise = true;
     this.analise = {};
     this.amostras = [];
@@ -40,44 +63,68 @@ export class AnalisePage implements OnInit {
         this.amostras = data[0].amostras;
         this.escalas = data[0].amostras[0].escalas;
       }
+    }, (err) => {
+      setTimeout(() => {
+        load.dismiss();
+      }, 2000);
+      this.presentAlert("Ocorreu um erro ao carregar os dados");
     });
-    this.escolherAnalise = false;
-    let amostras = [];
-    this.amostras.forEach(amostra => {
-      let escalas = [];
-      amostra.escalas.forEach(escala => {
-        let respostas = [];
-        escala.atributos.forEach(atributo => {
-          respostas.push({ posicao: atributo.posicao_atributo, valor: '' });
+    if (this.amostras) {
+      this.escolherAnalise = false;
+      let amostras = [];
+      this.amostras.forEach(amostra => {
+        let escalas = [];
+        amostra.escalas.forEach(escala => {
+          let respostas = [];
+          escala.atributos.forEach(atributo => {
+            respostas.push({ posicao: atributo.posicao_atributo, valor: '' });
+          });
+          escalas.push({ id: escala.id_escala, respostas: respostas });
         });
-        escalas.push({ id: escala.id_escala, respostas: respostas });
+        amostras.push({ id: amostra.id_amostra, escalas: escalas });
       });
-      amostras.push({ id: amostra.id_amostra, escalas: escalas });
-    });
-    this.respostas.push({analise: id, nome: '', faixa: '', consumo: '', amostras: amostras});
+      this.respostas[0] = ({ analise: id, nome: '', faixa: '', consumo: '', amostras: amostras });
+    }
     load.dismiss();
-    console.log(this.respostas);
   }
+
   async carregarAnalises() {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
     await this.analiseService.getActiveAnalises().then(res => {
       if (res) {
         this.allAnalises = res;
         console.log(this.allAnalises);
       }
+    }, (err) => {
+      setTimeout(() => {
+        load.dismiss();
+      }, 2000);
+      this.presentAlert("Ocorreu um erro ao carregar os dados");
     });
+    load.dismiss();
   }
-  ad() {
-    console.log(this.respostas);
-  }
-  submit() {
 
+  async submit() {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
     let form = new FormData();
     form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
     console.log((form));
-    this.analiseService.saveRespostas(form).then(res => {
+    await this.analiseService.saveRespostas(form).then(res => {
       console.log((res));
+    }, (err) => {
+      setTimeout(() => {
+        load.dismiss();
+      }, 2000);
+      this.presentAlert("Ocorreu um erro ao salvar os dados");
     });
   }
+
   doRefresh(event) {
     setTimeout(() => {
       this.carregarAnalises();
@@ -86,5 +133,9 @@ export class AnalisePage implements OnInit {
 
   }
 
-
+  goHome() {
+    this.escolherAnalise = false;
+    this.sair();
+    this.router.navigate(['home']);    
+  }
 }

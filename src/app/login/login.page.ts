@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/modal/usuario';
 import { UsuarioService } from 'src/services/usuario.service';
 
@@ -18,7 +18,7 @@ export class LoginPage implements OnInit {
   usuario: Usuario;
   fGroup: FormGroup;
   constructor(public formBuilder: FormBuilder, private route: Router, public loading: LoadingController,
-    public usuarioService: UsuarioService) {
+    public usuarioService: UsuarioService, public alertController: AlertController) {
     this.fGroup = this.formBuilder.group({
       matricula: new FormControl('', Validators.required),
       senha: ['', Validators.required]
@@ -41,23 +41,43 @@ export class LoginPage implements OnInit {
         if (this.usuario.senha == this.fGroup.value.senha) {        
           this.error.message = "";
           this.route.navigate(['usuario-logado', {id_user: this.usuario.id_user}]);
-          load.dismiss();
         }
         else {
-          this.error.message = "Senha inválida";
+          this.error.message = "Senha incorreta";
+          this.presentAlert("Senha incorreta");
         }
       }
       else {        
-        this.error.message = "Mátricula ou senha inválidos";
+        this.error.message = "Mátricula não cadastrada";
+        this.presentAlert("Mátricula não cadastrada");
       }
 
     }, err => {
-      this.error.message = err;
-    }
-    );
+      this.error.message = "Erro ao conectar ao servidor";
+      this.presentAlert("Erro ao conectar ao servidor");
+    });
     load.dismiss();
   }
+
   back() {
     this.route.navigate(['home']);
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'alerta',
+      header: "Erro",
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alertBtn',
+          handler: () => {
+            console.log('ok');
+          }
+        }
+      ],
+    });
+    await alert.present();
   }
 }

@@ -2,6 +2,7 @@
     color: red !important;
 }
 .btn {
-    position: absolute;
-    right: 20px;
+    position: relative;
+    float: right;
+    margin-top: 10px;
 }
