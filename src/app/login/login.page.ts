@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/modal/usuario';
@@ -18,7 +18,7 @@ export class LoginPage implements OnInit {
   usuario: Usuario;
   fGroup: FormGroup;
   constructor(public formBuilder: FormBuilder, private route: Router, public loading: LoadingController,
-    public usuarioService: UsuarioService, public alertController: AlertController) {
+    public usuarioService: UsuarioService, public alertController: AlertController, public active: ActivatedRoute) {
     this.fGroup = this.formBuilder.group({
       matricula: new FormControl('', Validators.required),
       senha: ['', Validators.required]

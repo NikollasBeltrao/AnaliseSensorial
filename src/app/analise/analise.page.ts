@@ -96,7 +96,6 @@ export class AnalisePage implements OnInit {
     await this.analiseService.getActiveAnalises().then(res => {
       if (res) {
         this.allAnalises = res;
-        console.log(this.allAnalises);
       }
     }, (err) => {
       setTimeout(() => {
@@ -114,9 +113,7 @@ export class AnalisePage implements OnInit {
     load.present();
     let form = new FormData();
     form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
-    console.log((form));
     await this.analiseService.saveRespostas(form).then(res => {
-      console.log((res));
     }, (err) => {
       setTimeout(() => {
         load.dismiss();
