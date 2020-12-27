@@ -42,4 +42,11 @@ export class UsuarioService {
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }
+    alterUser(form){
+        form.append('alterUser', "alterUser");
+        return new Promise<any>((resolve, reject) => {
+            this.http.post(this.server + "/usuario/usuario.php", form).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
+    }
 }

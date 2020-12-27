@@ -4,12 +4,12 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{usuario.nome_user}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="goHome()">
-        <ion-icon class="icon-bar" name="home-outline"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="end">      
       <ion-button (click)="goPerfil()">
         <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="sair()">
+        <ion-icon class="icon-bar" name="exit-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
 

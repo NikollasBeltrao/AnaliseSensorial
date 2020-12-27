@@ -18,6 +18,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { FullScreenImage } from '@ionic-native/full-screen-image/ngx';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NativePageTransitions } from '@ionic-native/native-page-transitions/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -32,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FilePath,
     PhotoViewer,
     FullScreenImage,
+    NativePageTransitions,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

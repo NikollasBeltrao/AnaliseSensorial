@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 @Component({
   selector: 'app-analise',
   templateUrl: './analise.page.html',
@@ -16,11 +17,13 @@ export class AnalisePage implements OnInit {
   amostras: Array<any>;
   escalas: Array<any>
   escolherAnalise = true;
+  bgs = ['bg-azul','bg-laranja', 'bg-rosa', 'bg-amarelo'];
   a;
   constructor(private analiseService: AnaliseService, public loading: LoadingController, private router: Router,
-    public alertController: AlertController) {
+    public alertController: AlertController, private nativePageTransitions: NativePageTransitions) {
     this.analise = {};
     this.allAnalises = [];
+    console.log("d");
   }
 
   ngOnInit() {
@@ -46,13 +49,25 @@ export class AnalisePage implements OnInit {
   sair() {
     if (this.escolherAnalise) {
       this.goHome();
+    }    
+    let options: NativeTransitionOptions = {
+      duration: 400,    
     }
+    this.nativePageTransitions.fade(options)
+      .catch(console.error);
     this.escolherAnalise = true;
     this.analise = {};
     this.amostras = [];
     this.escalas = [];
+    this.respostas = []
   }
   async getAnalise(id) {
+    let options: NativeTransitionOptions = {
+      direction: 'left',
+      duration: 400,    
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
     let load = await this.loading.create({
       message: 'Carregando',
     });
@@ -77,13 +92,13 @@ export class AnalisePage implements OnInit {
         amostra.escalas.forEach(escala => {
           let respostas = [];
           escala.atributos.forEach(atributo => {
-            respostas.push({ posicao: atributo.posicao_atributo, valor: '' });
+            respostas.push({ posicao: atributo.posicao_atributo, valor: 0 });
           });
           escalas.push({ id: escala.id_escala, respostas: respostas });
         });
         amostras.push({ id: amostra.id_amostra, escalas: escalas });
       });
-      this.respostas[0] = ({ analise: id, nome: '', faixa: '', consumo: '', amostras: amostras });
+      this.respostas[0] = ({ analise: id, nome: '', faixa: 0, consumo: 0, amostras: amostras });
     }
     load.dismiss();
   }
@@ -130,7 +145,20 @@ export class AnalisePage implements OnInit {
 
   }
 
+  bg(i){
+    if(i >= this.bgs.length){
+      return i % this.bgs.length;
+    }
+    return i;
+  }
+
   goHome() {
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,    
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
     this.escolherAnalise = false;
     this.sair();
     this.router.navigate(['home']);    

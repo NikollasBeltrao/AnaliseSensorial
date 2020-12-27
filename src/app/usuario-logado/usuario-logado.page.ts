@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Usuario } from 'src/modal/usuario';
 import { UsuarioService } from 'src/services/usuario.service';
 
@@ -12,11 +12,20 @@ import { UsuarioService } from 'src/services/usuario.service';
 })
 export class UsuarioLogadoPage implements OnInit {
   usuario: Usuario;
+  backButtonSubscription;
   constructor(public route: Router, public active: ActivatedRoute, private http: HttpClient, public loading: LoadingController,
-    private usuarioService: UsuarioService, public alertController: AlertController) {
+    private usuarioService: UsuarioService, public alertController: AlertController, private platform: Platform) {
     this.usuario = new Usuario();
   }
 
+  ionViewDidEnter () {
+    this.backButtonSubscription = this.platform.backButton.subscribe(() => {
+      this.route.navigate(['login']);
+    });
+  }
+  ionViewDidLeave (){
+    this.backButtonSubscription.unsubscribe();
+  }
   async ngOnInit() {
     let load = await this.loading.create({
       message: 'Carregando',
@@ -36,23 +45,29 @@ export class UsuarioLogadoPage implements OnInit {
   }
 
   listarUsuarios() {
+    this.backButtonSubscription.unsubscribe();
     this.route.navigate(["listar-usuarios", { id_user: this.usuario.id_user }]);
   }
 
   listarAnalises() {
+    this.backButtonSubscription.unsubscribe();
     this.route.navigate(["listar-analises", { id_user: this.usuario.id_user }]);
 
   }
   cadastrarAnalise() {
+    this.backButtonSubscription.unsubscribe();
     this.route.navigate(["criar-analise", { id_user: this.usuario.id_user }]);
   }
   cadastrarUsuario() {
+    this.backButtonSubscription.unsubscribe();
     this.route.navigate(["criar-usuario", { id_user: this.usuario.id_user }]);
   }
-  goHome() {
+  sair() {
+    this.backButtonSubscription.unsubscribe();
     this.route.navigate(["home"]);
   }
   goPerfil() {
+    this.backButtonSubscription.unsubscribe();
     this.route.navigate(["perfil", { id_user: this.usuario.id_user }]);
   }
 

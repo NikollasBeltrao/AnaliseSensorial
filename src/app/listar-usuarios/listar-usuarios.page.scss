@@ -2,19 +2,20 @@
  color: rgb(156, 156, 156);
  font-size: 16px;
 }
+#cont ul li small{
+    color: rgb(156, 156, 156);
+}
 #cont ul li button{
-    height: 30px;
-    width: 70px;
-    font-size: 15px;
-    color: white;    
+    height: auto;
+    width: auto;
+    font-size: 19px;    
     margin-right: 10px;
     border-radius: 4px;
+    padding: 0px;
+    background-color: white;
 }
-#cont ul li button:first-child{
-    background-color: #3880FF;
-}
-#cont ul li button:last-child{
-    background-color: red;
+#cont ul li button ion-icon{
+    color: red;
 }
 #head{
     height: 55px;

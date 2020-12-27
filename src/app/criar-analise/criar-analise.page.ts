@@ -75,12 +75,10 @@ export class CriarAnalisePage implements OnInit {
       form.append("user", this.idUser);
       form.append("hedonica", hed);
       form.append("compra", com);
-      var atributosC = [];
+      if (this.fGroup.value.compra) {
+        this.fGroup.value.atributosCompra = ['Atitude de Compra'];
+      }
       var atributosH = [];
-      this.fGroup.value.atributosCompra.forEach(element => {
-        atributosC.push(element["value"]);
-      });
-      this.fGroup.value.atributosCompra = atributosC;
       form.append("atributos-compra", this.fGroup.value.atributosCompra);
       this.fGroup.value.atributosHedonica.forEach(element => {
         atributosH.push(element["value"]);
@@ -109,6 +107,9 @@ export class CriarAnalisePage implements OnInit {
     }
   }
   goHome() {
+    this.router.navigate(["usuario-logado", { id_user: this.idUser }]);
+  }
+  sair() {
     this.router.navigate(["home"]);
   }
   goPerfil() {

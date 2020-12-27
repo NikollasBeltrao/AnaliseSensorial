@@ -1,37 +1,68 @@
 
 #analiseForm {
-    margin: 15px;
+    margin: 10px;
+    padding: 0px;
+    border-radius: 6px;
+    background-color: white;
+}
+.formC .form-row{ 
+    width: 100%;     
+}
+.formC .form-row .col-12, .formC .col-12{    
+    padding: 10px 20px 10px 20px;       
+}
+
+#analiseForm {
+    height: auto;
 }
 .radioB{
     float: left !important;
 }
 .card-header{
     font-size: 18px;
-    color: white;
+    color: black;
+}
+.tab-pane{
+    position: relative;
 }
 .desc{
     margin: 10px;
+    text-align: justify;
 }
 .nome{
-    font-weight: 700;
+    font-weight: 700;    
 }
 .card{
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
+    margin: 5px;
+    width: 97% !important;    
+}
+.displayNone {
+    display: none;
 }
 .proximo{
     float: right;
-    right: 0px;
-    margin-right: 0px;
 }
-.butt{
+.btn{
     width: 100px;
     height: 40px;
-    color: white;
-    background-color: purple;
-    border-radius: .25rem;
+    bottom: 0px;
+    margin-top: 20px;
 }
 #ref{
     z-index: 10;
+}
+.list-group{
+    padding: 20px 20px 0px 20px;    
+    background-color: transparent;
+}
+
+#todo{
+    height: auto;
+    
+}
+.list-group-item {
+    min-height: 120px;
 }
 #noData{
     opacity: 0.7;
@@ -44,4 +75,16 @@
 #noData img{
     width: 200px;
     height: 200px;
+}
+.bg-rosa {
+    background-color: #EDC6E5;
+}
+.bg-amarelo {
+    background-color: #FFFAB0;
+}
+.bg-azul {
+    background-color: #BEF6DB;
+}
+.bg-laranja {
+    background-color: #FFCBA9;
 }

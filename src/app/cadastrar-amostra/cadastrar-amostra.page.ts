@@ -129,11 +129,14 @@ export class CadastrarAmostraPage implements OnInit {
       })
 
   }
-  goHome(){
+  sair(){
     this.router.navigate(['home']);
   }
+  goHome(){
+    this.router.navigate(['usuario-logado', {id_user: this.idUser}]);
+  }
   goPerfil(){
-    
+
     this.router.navigate(["perfil", {id_user: this.idUser}]);
   }
 }

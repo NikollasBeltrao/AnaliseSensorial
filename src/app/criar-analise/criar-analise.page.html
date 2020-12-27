@@ -3,13 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>criarAnalise</ion-title>
+    <ion-title>Nova Análise</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="goHome()">
         <ion-icon class="icon-bar" name="home-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="goPerfil()">
         <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="sair()">
+        <ion-icon class="icon-bar" name="exit-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -35,7 +38,7 @@
         <div class="form-group col-12">
           <input id="hed" type="checkbox" formControlName="hedonica">
           <label class="form-check-label" for="hed">
-            Hedônica
+            Escala Hedônica
           </label>
           <div class="form-group col-12" *ngIf="fGroup.value.hedonica">
             <ion-label position="fixed">Atributos Hedônica</ion-label>
@@ -47,12 +50,8 @@
         <div class="form-group col-12">
           <input id="com" type="checkbox" formControlName="compra">
           <label class="form-check-label" for="com">
-            Compra
+            Atutude de Compra
           </label>
-          <div class="form-group col-12" *ngIf="fGroup.value.compra">
-            <ion-label position="fixed">Atributos Compra</ion-label>
-            <tag-input formControlName="atributosCompra"></tag-input>
-          </div>
         </div>
         
 
@@ -63,7 +62,7 @@
         </div>        
       </div>
 
-      <button id="btn-sub" class="btn" type="submit">Cadastrar</button>
+      <button class="btn" type="submit">Cadastrar</button>
     </form>
   </div>
 </ion-content>

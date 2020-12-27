@@ -28,16 +28,23 @@
     background-color: purple;
 }
 .btn {
-    background-color: purple;
+    background-color: #47D5C9;
     border-radius: 5px;
     width: auto;
     height: 37px;
-    color: white;
+    color: #303030;
     font-size: 17px;
+    border: solid 1px #CED4DA;
+}
+.btn:focus {
+    background-color: #66d3cabd;
 }
 .icon-bar{
-    color: white;
+    color: #303030;
     font-size: 25px;
+}
+.icon-bar:focus{
+    background-color: #f3d6d6ab;
 }
 ion-title, h1, h2, h3{
     font-family: 'Raleway', sans-serif;
@@ -45,6 +52,7 @@ ion-title, h1, h2, h3{
 ion-content{
     font-family: 'Poppins', sans-serif;
     font-size: 17px;
+    
 }
 small, span {
     font-style: italic;
@@ -56,4 +64,16 @@ small, span {
 
 .alerta {
     background-color: rgba(0, 0, 0, 0.267);
+}
+.bg-rosa {
+    background-color: #EDC6E5;
+}
+.bg-amarelo {
+    background-color: #FFFAB0;
+}
+.bg-azul {
+    background-color: #BEF6DB;
+}
+.bg-laranja {
+    background-color: #FFCBA9;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/modal/usuario';
 import { UsuarioService } from 'src/services/usuario.service';
 
@@ -13,12 +14,9 @@ export class ListarUsuariosPage implements OnInit {
   listUsers: Array<Usuario>;
   user: Usuario;
   id_user: any;
-  alterarTrue: boolean = false;
-  listarTrue: boolean = true;
-  cadastrarTrue: boolean = false;
-  deletarTrue: boolean = false;
   searchInp: FormGroup;
-  constructor(public route: Router, public active: ActivatedRoute, private usuarioService: UsuarioService, public formBuilder: FormBuilder) {
+  constructor(public route: Router, public active: ActivatedRoute, private usuarioService: UsuarioService, public formBuilder: FormBuilder,
+    public loading: LoadingController, public alertController: AlertController) {
     this.searchInp = this.formBuilder.group({
       search: new FormControl('', Validators.required),
     });
@@ -27,16 +25,41 @@ export class ListarUsuariosPage implements OnInit {
   ngOnInit() {
     this.carregarUsuarios();
   }
-  carregarUsuarios() {
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'alerta',
+      header: "Erro",
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alertBtn',
+          handler: () => {
+            console.log('ok');
+          }
+        }
+      ],
+    });
+    await alert.present();
+  }
+
+  async carregarUsuarios() {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
     this.active.params.subscribe(async params => {
       this.id_user = params['id_user'];
       await this.usuarioService.getAllUsers().
         then(res => {
           this.listUsers = res;
+          console.log(res);
         });
     });
+    load.dismiss();
   }
-  doRefresh(event){
+  doRefresh(event) {
     setTimeout(() => {
       this.carregarUsuarios();
       event.target.complete();
@@ -51,38 +74,12 @@ export class ListarUsuariosPage implements OnInit {
         console.log(res);
 
       });
-    this.mudarlistar();
-
   }
-  backToHome(){
-    this.route.navigate(['usuario-logado', {id_user: this.id_user}]);
-  }
-  mudaralterar() {
-    this.alterarTrue = true;
-    this.cadastrarTrue = false;
-    this.listarTrue = false;
-    this.deletarTrue = false;
-
+  backToHome() {
+    this.route.navigate(['usuario-logado', { id_user: this.id_user }]);
   }
 
-  mudarcadastrar() {
-    this.alterarTrue = false;
-    this.cadastrarTrue = true;
-    this.listarTrue = false;
-    this.deletarTrue = false;
+  deletar(id) {
+    this.presentAlert(id);    
   }
-
-  mudarlistar() {
-    this.alterarTrue = false;
-    this.cadastrarTrue = false;
-    this.listarTrue = true;
-    this.deletarTrue = false;
-  }
-  mudardeletar() {
-    this.alterarTrue = false;
-    this.cadastrarTrue = false;
-    this.listarTrue = false;
-    this.deletarTrue = true;
-  }
-
 }

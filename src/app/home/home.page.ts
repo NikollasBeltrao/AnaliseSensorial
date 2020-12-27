@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platform, ViewDidEnter } from '@ionic/angular';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,14 @@ import { Platform, ViewDidEnter } from '@ionic/angular';
 })
 export class HomePage implements OnInit, ViewDidEnter, OnDestroy {
   backButtonSubscription;
-  constructor(private route: Router, private platform: Platform, public active: ActivatedRoute) {
+  options: NativeTransitionOptions;
+  constructor(private route: Router, private platform: Platform, public active: ActivatedRoute,
+    private nativePageTransitions: NativePageTransitions) {
+    this.options = {
+      direction: 'left',
+      duration: 400,    
+    }
+
 
   }
   ngOnInit() {
@@ -26,11 +34,15 @@ export class HomePage implements OnInit, ViewDidEnter, OnDestroy {
   }
 
   goToLogin() {
+    this.nativePageTransitions.slide(this.options)
+      .catch(console.error);
     this.backButtonSubscription.unsubscribe();
     this.route.navigate(['login']);
   }
 
   goToAnalise() {
+    this.nativePageTransitions.slide(this.options)
+      .catch(console.error);
     this.backButtonSubscription.unsubscribe();
     this.route.navigate(['analise']);
   }

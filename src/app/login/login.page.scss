@@ -53,8 +53,11 @@
     top: 0px;
     padding: 0px;
     margin-bottom: 20px;
-    background-color:#6DBBAA;
+    background-color: #f1c6c6;
     border-radius: 6px 6px 0px 0px;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+		-moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+		box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
   }
   #topoForm h2{
     position: absolute;
@@ -64,14 +67,14 @@
     margin: 0px;
     height: 100%;
     width: auto;    
-    color: white;
+    color: #303030;
   }
   #btnHome{
-    background-color:#6DBBAA;
+    background-color: #F1C6C6;
     border-radius: 6px;
     width: 50px;
     height: 100%;
-    color: white;
+    color: #303030;
     position: absolute;
     top: 0px;
     font-size: 27px;
@@ -85,7 +88,7 @@
   }
   #subBtn{
       border: solid 1px  rgb(87, 86, 86);
-      background-color: purple;
+      background-color: #47D5C9;
       border-radius: 3px;
       width: 120px;
       height: 30px;

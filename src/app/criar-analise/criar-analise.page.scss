@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 70px;
-    background-color: gray;
+    padding-top: 20px;
+    background-color: #F1F1F1;
 }
 #form {
     padding: 10px;
@@ -14,13 +14,18 @@
     border-radius: 6px;
     margin-left: 15px;
     margin-right: 15px;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+	-moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+	box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
 }
-#btn-sub {
+.btn {
     float: right;
-    background-color: purple;
     margin-right: 10px;
-    color: white;
+    
 }
 small{
     color: red !important;
+}
+.form-check-label{
+    margin-left: 5px;
 }

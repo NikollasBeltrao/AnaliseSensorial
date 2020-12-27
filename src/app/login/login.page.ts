@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/modal/usuario';
 import { UsuarioService } from 'src/services/usuario.service';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginPage implements OnInit {
   usuario: Usuario;
   fGroup: FormGroup;
   constructor(public formBuilder: FormBuilder, private route: Router, public loading: LoadingController,
-    public usuarioService: UsuarioService, public alertController: AlertController, public active: ActivatedRoute) {
+    public usuarioService: UsuarioService, public alertController: AlertController, public active: ActivatedRoute,
+    private nativePageTransitions: NativePageTransitions) {
     this.fGroup = this.formBuilder.group({
       matricula: new FormControl('', Validators.required),
       senha: ['', Validators.required]
@@ -26,7 +28,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
   async login() {
@@ -38,16 +40,24 @@ export class LoginPage implements OnInit {
     await this.usuarioService.authUser(this.fGroup.value.matricula).then(data => {
       if (data != false) {
         this.usuario = <Usuario>data;
-        if (this.usuario.senha == this.fGroup.value.senha) {        
+        if (this.usuario.senha == this.fGroup.value.senha) {
           this.error.message = "";
-          this.route.navigate(['usuario-logado', {id_user: this.usuario.id_user}]);
+          this.fGroup.reset();
+          this.validar = false;
+          let options: NativeTransitionOptions = {
+            direction: 'left',
+            duration: 400,
+          }
+          this.nativePageTransitions.slide(options)
+            .catch(console.error);
+          this.route.navigate(['usuario-logado', { id_user: this.usuario.id_user }]);
         }
         else {
           this.error.message = "Senha incorreta";
           this.presentAlert("Senha incorreta");
         }
       }
-      else {        
+      else {
         this.error.message = "Mátricula não cadastrada";
         this.presentAlert("Mátricula não cadastrada");
       }
@@ -60,6 +70,12 @@ export class LoginPage implements OnInit {
   }
 
   back() {
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
     this.route.navigate(['home']);
   }
 
