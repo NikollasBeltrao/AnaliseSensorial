@@ -34,7 +34,7 @@
 }
 .switch--shadow + label:before {
   right: 1px;
-  background-color: #ff2323;
+  background-color: #e44d4d;
   border-radius: 60px;
   transition: all 0.4s;
 }
@@ -46,7 +46,7 @@
   transition: all 0.4s;
 }
 .switch--shadow:checked + label:before {
-    background-color: #19d823;
+    background-color: #34ce3c;
 }
 .switch--shadow:checked + label:after {
     transform: translateX(20px);
@@ -77,7 +77,9 @@
     font-size: 20px;
 }
 .list-group{
-  background-color: #e7e7e7;
+  background-color: #F0F0F0;
+  height: auto;
+  min-height: 100%;
   padding: 20px 10px 20px 10px !important;
 }
 .list-group, .list-group-item{
@@ -87,7 +89,9 @@
 .list-group-item{
     margin-top: 20px;
     border-radius: 10px;
-    background-color: #FBFBC7;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+	  box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
 }
 .todo-card{
     padding: 15px 15px 0px 15px;

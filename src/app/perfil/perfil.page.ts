@@ -15,9 +15,9 @@ export class PerfilPage implements OnInit {
   senha = '';
   novaSenha = '';
   confSenha = '';
+  alterar = false;
   senhaIncorreta = true;
   validarSenha = false;
-
   novaSenhaIncorreta = true;
   validarNovaSenha = false;
 
@@ -37,7 +37,6 @@ export class PerfilPage implements OnInit {
       await this.usuarioService.getUser(parms["id_user"]).
         then(response => {
           this.usuario = response
-          console.log(this.usuario);
         }, (err) => {
           this.presentAlert("Erro ao conectar ao carregar os dados");
         });
@@ -50,6 +49,7 @@ export class PerfilPage implements OnInit {
     this.route.navigate(["home"]);
   }
 
+
   verificarSenha() {
     this.validarSenha = true;
     if (this.senha === this.usuario.senha) {
@@ -60,20 +60,43 @@ export class PerfilPage implements OnInit {
     }
   }
 
-  verificarNovaSenha() {
+  async alterarDados() {
+    let load = await this.loading.create({
+      message: 'Carregando',
+    });
+    load.present();
+    let form = new FormData();
+    form.append("senha", this.usuario.senha);
     this.validarNovaSenha = true;
-    if ((this.novaSenha.length <= 10 && this.novaSenha.length >= 4) && this.novaSenha != '') {
-      this.novaSenhaIncorreta = false;
+    if (this.novaSenha != '') {
+      if (((this.novaSenha.length <= 10 && this.novaSenha.length >= 4))) {
+        this.novaSenhaIncorreta = false;
+      }
+      else {
+        this.novaSenhaIncorreta = true;
+      }
+      if (this.confSenha === this.novaSenha) {
+        if (!this.senhaIncorreta) {
+          form.append("senha", this.novaSenha);
+        }
+        this.confirmarSenha = true;
+      }
+      else {
+        this.confirmarSenha = false;
+      }
     }
-    else {
-      this.novaSenhaIncorreta = true;
+    this.verificarSenha();
+    if (!this.senhaIncorreta) {
+
+      form.append("id", this.usuario.id_user + '');
+      form.append("nome", this.usuario.nome_user);
+      form.append("matricula", this.usuario.matricula_user);
+      if ((this.novaSenha != '' && !this.novaSenhaIncorreta && this.confirmarSenha) || (this.novaSenha === '')) {
+        await this.usuarioService.alterUser(form).then(res => {          
+        });
+      }
     }
-    if (this.confSenha === this.novaSenha) {
-      this.confirmarSenha = true;
-    }
-    else {
-      this.confirmarSenha = false;
-    }
+    load.dismiss();
   }
 
   async presentAlert(message) {

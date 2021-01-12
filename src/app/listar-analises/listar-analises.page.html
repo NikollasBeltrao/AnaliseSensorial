@@ -1,52 +1,53 @@
 <ion-header>
-  <ion-toolbar color="secondary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Análises</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="goHome()">
-        <ion-icon  class="icon-bar" name="home-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="goPerfil()">
-        <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Análises</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="goHome()">
+                <ion-icon class="icon-bar" name="home-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="goPerfil()">
+                <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="sair()">
+                <ion-icon class="icon-bar" name="exit-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
-      refreshingSpinner="circles" refreshingText="Carregando...">
-    </ion-refresher-content>
-  </ion-refresher>
-  <ul class="list-group">
-    <li class="list-group-item align-items-start" *ngFor=" let a of analises">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Carregando...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ul class="list-group">
+        <li class="list-group-item align-items-start {{bgs[bg(i)]}}" *ngFor=" let a of analises; let i = index">
 
-      <div class="todo-card">
-        <button id="bt" class="mais" (click)="goToRespostas(a.id_analise)">
+            <div class="todo-card">
+                <button id="bt" class="mais" (click)="goToRespostas(a.id_analise)">
           <ion-icon class="bt" name="ellipsis-vertical"></ion-icon>
         </button>
-        <p class="titulo"><strong>{{a.titulo_analise}}</strong></p>
+                <p class="titulo"><strong>{{a.titulo_analise}}</strong></p>
 
 
-        <strong>{{a.nome_user}} - </strong>
-        <small>{{a.matricula_user}}</small>
-        <div class="switch__container">
-          <input id="{{a.id_analise}}" class="switch switch--shadow" type="checkbox"
-            [checked]="a.status == 1 ? true : false " (click)="switch($event, a.id_analise)" />
-          <label for="{{a.id_analise}}"></label>
-        </div>
-        <br>
-        <strong>Descrição:</strong>
-        <p class="mb-1" class="desc">{{a.desc_analise}}</p>
+                <strong>{{a.nome_user}} - </strong>
+                <small>{{a.matricula_user}}</small>
+                <div class="switch__container">
+                    <input id="{{a.id_analise}}" class="switch switch--shadow" type="checkbox" [checked]="a.status == 1 ? true : false " (click)="switch($event, a.id_analise)" />
+                    <label for="{{a.id_analise}}"></label>
+                </div>
+                <br>
+                <strong>Descrição:</strong>
+                <p class="mb-1" class="desc">{{a.desc_analise}}</p>
 
-      </div>
-      <div class="data text-muted text-center">
-        <small>{{a.data}}</small>
-      </div>
-    </li>
+            </div>
+            <div class="data text-muted text-center">
+                <small>{{a.data}}</small>
+            </div>
+        </li>
 
-  </ul>
+    </ul>
 </ion-content>

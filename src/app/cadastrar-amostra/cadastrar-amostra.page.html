@@ -43,8 +43,9 @@
         <input type="text" formControlName="desc" class="form-control" id="desc" placeholder="Descrição">
         <small *ngIf="fGroup.controls.desc.value == '' && validar" class="text-muted">*Obrigatório</small>
       </div>
-      <div class="form-group">
-        <label>Imagem</label>
+      <label>Imagem</label>
+      <div class="form-group centro">
+        
         <div id="btns-foto">
           <div>
             <button type="button" id="bt1" (click)="takePicture()">
@@ -74,7 +75,7 @@
         <img id="img" src="{{imagem}}" (click)="imgFull()" alt="{{errImg}}">
       </div>
       
-      <button id="btn-sub" class="btn" type="submit">Cadastrar</button>
+      <button class="btn" type="submit">Cadastrar</button>
     </form>
     
   </div>

@@ -1,8 +1,17 @@
 .red {
     color: red !important;
 }
+
 .btn {
     position: relative;
     float: right;
-    margin-top: 10px;
+}
+
+.container form {
+    height: 530px;
+    border-radius: 6px;
+    margin: 20px 5px 0px 5px;
+    padding: 12px;
+    -moz-box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.45);
+    box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.45);
 }

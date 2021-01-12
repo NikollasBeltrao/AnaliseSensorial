@@ -129,12 +129,14 @@ export class AnalisePage implements OnInit {
     let form = new FormData();
     form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
     await this.analiseService.saveRespostas(form).then(res => {
+
     }, (err) => {
       setTimeout(() => {
         load.dismiss();
       }, 2000);
       this.presentAlert("Ocorreu um erro ao salvar os dados");
     });
+    load.dismiss();
   }
 
   doRefresh(event) {

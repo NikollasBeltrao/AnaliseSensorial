@@ -33,12 +33,15 @@
   width: 300px;    
   
   font-size: 17px;
-  color: white;
-  background-color: purple;
+  color: #303030;
+  background-color: #47D5C9;
   border-radius: 5px;
   margin-bottom: 25px;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+#over button:focus{
+  background-color: #66d1c8e0;
 }
 @media only screen and (min-width: 700px) {
   #over img{
@@ -50,7 +53,7 @@
     width: 430px;    
     font-size: 20px;
     color: white;
-    background-color: purple;
+    background-color: #47D5C9;
     border-radius: 5px;
     margin-top: 25px;
     display: block;

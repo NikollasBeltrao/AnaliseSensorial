@@ -1,51 +1,59 @@
 <ion-header>
-  <ion-toolbar color="secondary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Novo Usuário</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="goHome()">
-        <ion-icon class="icon-bar" name="home-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="goPerfil()">
-        <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Novo Usuário</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="goHome()">
+                <ion-icon class="icon-bar" name="home-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="goPerfil()">
+                <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="sair()">
+                <ion-icon class="icon-bar" name="exit-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<div class="container">
-  <form [formGroup]="fGroup" (ngSubmit)="submit()">
-    <div class="form-group">
-      <label for="nome">Nome</label>
-      <input type="text" class="form-control" id="nome" formControlName="nome"  placeholder="Digite o nome do estudante">      
+    <div class="container">
+        <form [formGroup]="fGroup" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" formControlName="nome" placeholder="Digite o nome do estudante">
+            </div>
+            <div class="form-group">
+                <label for="mat">Matrícula</label>
+                <input type="text" class="form-control" id="mat" formControlName="matricula" placeholder="Digite a matrícula do estudante">
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" class="form-control" id="senha" formControlName="senha" placeholder="Digite uma senha" (keyup)="validarSenha()">
+                <small id="helpsenha" class="form-text text-muted">*Sua senha deve ter entre 4 - 10 caracters</small>
+                <small *ngIf="fGroup.controls.senha.invalid && submerter" id="errsenha" class="form-text text-muted red">*Senha
+                    Inválida</small>
+            </div>
+            <div class="form-group">
+                <label for="rsenha">Repetir senha</label>
+                <input type="password" class="form-control" id="rsenha" formControlName="rsenha" placeholder="Confirme a senha" (keyup)="validarSenha()">
+                <small *ngIf="senhaInvalida" id="errrsenha" class="form-text text-muted red">*As senhas devem ser
+                    iguais</small>
+            </div>
+            <div class="form-group">
+                <label for="per">Permissões</label>
+                <select class="form-control" id="per" formControlName="permissoes">
+                    <option value="1">1 - Estudante (Criar e Visualiar)</option>
+                    <option value="2">2 - Administrador (Criar, Visualiar, Editar e Excluir)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <small *ngIf="fGroup.invalid && submerter" id="err" class="form-text text-muted red">*Preencha todods os
+                    campos</small>
+                <button class="btn" type="submit">Cadastrar</button>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-      <label for="mat">Matrícula</label>
-      <input type="text" class="form-control" id="mat" formControlName="matricula" placeholder="Digite a matrícula do estudante">
-    </div>
-    <div class="form-group">
-      <label for="senha">Senha</label>
-      <input type="password" class="form-control" id="senha" formControlName="senha" placeholder="Digite uma senha" (keyup)="validarSenha()">
-      <small id="helpsenha" class="form-text text-muted">*Sua senha deve ter entre 4 - 10 caracters</small>
-      <small *ngIf="fGroup.controls.senha.invalid && submerter" id="errsenha" class="form-text text-muted red">*Senha Inválida</small>
-    </div>
-    <div class="form-group">
-      <label for="rsenha">Repetir senha</label>
-      <input type="password" class="form-control" id="rsenha" formControlName="rsenha" placeholder="Confirme a senha" (keyup)="validarSenha()">
-      <small *ngIf="senhaInvalida" id="errrsenha" class="form-text text-muted red">*As senhas devem ser iguais</small>
-    </div>
-    <div class="form-group">
-      <label for="per">Permissões</label>
-      <select class="form-control" id="per" formControlName="permissoes" >
-        <option value="2">1 - Estudante (Criar e Visualiar)</option>
-        <option value="3">2 - Administrador (Criar, Visualiar, Editar e Excluir)</option>
-      </select>
-    </div>
-    <small *ngIf="fGroup.invalid && submerter" id="err" class="form-text text-muted red">*Preencha todods os campos</small>
-    <button class="btn" type="submit">Cadastrar</button>
-  </form>
-</div>
 </ion-content>

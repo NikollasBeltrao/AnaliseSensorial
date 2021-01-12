@@ -1,23 +1,40 @@
-#cont ul li span{
- color: rgb(156, 156, 156);
- font-size: 16px;
+.list-group {
+    margin: 20px;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    background-color: #F1F1F1 !important;
 }
-#cont ul li small{
+
+#cont ul li span {
     color: rgb(156, 156, 156);
+    font-size: 16px;
 }
-#cont ul li button{
+
+#cont ul li small {
+    color: rgb(126, 126, 126);
+}
+
+.mat {
+    font-size: 14px !important;
+}
+
+#cont ul li button {
     height: auto;
     width: auto;
-    font-size: 19px;    
+    font-size: 25px;
     margin-right: 10px;
     border-radius: 4px;
     padding: 0px;
-    background-color: white;
+    background-color: transparent;
 }
-#cont ul li button ion-icon{
-    color: red;
+
+#cont ul li button ion-icon {
+    color: rgb(250, 54, 54);
+    background-color: transparent;
 }
-#head{
+
+#head {
     height: 55px;
     background-color: purple;
     margin: 0px;
@@ -27,7 +44,8 @@
     align-items: center;
     justify-content: center;
 }
-#head form{
+
+#head form {
     margin-left: 10px;
     height: 100%;
     display: flex;
@@ -35,9 +53,9 @@
     align-items: center;
     justify-content: center;
     float: right;
-
 }
-#head input{
+
+#head input {
     width: 60vw;
     height: 30px;
     border: none;
@@ -46,15 +64,18 @@
     outline: 0px auto -webkit-focus-ring-color;
     outline-offset: 0px;
 }
-#head button:first-child:focus{
+
+#head button:first-child:focus {
     background-color: rgba(255, 255, 255, 0.705);
     opacity: 0.9;
 }
-#head button:last-child:hover, #head button:last-child:focus{
-    background-color: #3881ffde;
 
+#head button:last-child:hover,
+#head button:last-child:focus {
+    background-color: #3881ffde;
 }
-ion-toolbar{
+
+ion-toolbar {
     background-color: purple !important;
     margin: 0px;
     display: flex;

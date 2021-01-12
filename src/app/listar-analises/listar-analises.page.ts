@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 
@@ -12,8 +13,9 @@ export class ListarAnalisesPage implements OnInit {
   analises: Array<any>;
   goToResposta = true;
   idUser = '';
+  bgs = ['bg-azul', 'bg-laranja', 'bg-rosa', 'bg-amarelo'];
   constructor(private analiseService: AnaliseService, private route: Router, private active: ActivatedRoute,
-    public loading: LoadingController, public alertController: AlertController) { }
+    public loading: LoadingController, public alertController: AlertController, private nativePageTransitions: NativePageTransitions) { }
 
   async ngOnInit() {
     this.load();
@@ -40,6 +42,7 @@ export class ListarAnalisesPage implements OnInit {
     }, 2000);
   }
   goToRespostas(id) {
+    this.nextPage();
     this.route.navigate(['listar-respostas', { id: id, id_user: this.idUser }]);
   }
   async switch(e, id) {
@@ -68,13 +71,17 @@ export class ListarAnalisesPage implements OnInit {
   }
 
   goHome() {
-    this.route.navigate(["home"]);
+    this.back();
+    this.route.navigate(["usuario-logado", { id_user: this.idUser }]);
   }
   goPerfil() {
-
+    this.nextPage();
     this.route.navigate(["perfil", { id_user: this.idUser }]);
   }
-
+  sair() {
+    this.back();
+    this.route.navigate(["home"]);
+  }
   async presentAlert(message) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
@@ -91,5 +98,28 @@ export class ListarAnalisesPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  nextPage(){
+    let options: NativeTransitionOptions = {
+      direction: 'left',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
+  back(){
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
+  bg(i) {
+    if (i >= this.bgs.length) {
+      return i % this.bgs.length;
+    }
+    return i;
   }
 }

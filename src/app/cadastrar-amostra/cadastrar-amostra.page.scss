@@ -3,53 +3,70 @@ small {
 }
 #todo {
     width: 100vw;
-    height: 100vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 70px;
-    background-color: gray;
+    background-color: #F1F1F1;
 }
 #form {
     padding: 10px;
     max-width: 700px;
+    height: auto;
     background-color: white;
     border-radius: 6px;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: 20px;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+	-moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+	box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
 }
-
-#btn-sub {
+.centro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn {
     float: right;
-    background-color: purple;
+    background-color: #47D5C9;
     margin-right: 10px;
-    color: white;
+    color: #303030;
 }
 #btns-foto {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 250px;    
 }
 #btns-foto div{
     display: flex;
     flex-direction: column;
-    margin-right: 30px;
 }
-#btns-foto button{
-    background-color: purple;    
+#bt1 {
+    background-color: #EDC6E5;
+}
+#bt2 {
+    background-color: #FCC9AB;
+}
+#btns-foto button{ 
+           
     width: 60px;
     height: 60px;
     font-size: 17px;
     border-radius: 30px;
     margin-bottom: 10px;
-}
+    border: solid 1px #CDCDCD;
+    -webkit-box-shadow: 4px 5px 12px rgba(0, 0, 0, 0.45);
+	-moz-box-shadow:    4px 5px 12px rgba(0, 0, 0, 0.45);
+	box-shadow:         4px 5px 12px rgba(0, 0, 0, 0.45);
+}   
 #img {
-    margin-left: 15%;
     width: 70%;
     height: 170px;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+	-moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+	box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
 }
 #btns-foto button svg {
-    color: yellow;
+    color: #303030;
     font-size: 30px;
 }

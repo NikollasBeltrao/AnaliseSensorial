@@ -25,7 +25,7 @@
 
         <div class="form-group col-12">
           <label for="titulo">Título</label>
-          <input type="text" formControlName="titulo" class="form-control" id="titulo" placeholder="título">
+          <input type="text" formControlName="titulo" class="form-control" id="titulo" placeholder="Chocolate">
           <small *ngIf="fGroup.controls.titulo.value == '' && validar" class="text-muted">*Obrigatório</small>
         </div>
 
@@ -42,16 +42,26 @@
           </label>
           <div class="form-group col-12" *ngIf="fGroup.value.hedonica">
             <ion-label position="fixed">Atributos Hedônica</ion-label>
-            <tag-input formControlName="atributosHedonica"></tag-input>
+            <tag-input formControlName="atributosHedonica" ></tag-input>
+            <small *ngIf="fGroup.controls.atributosHedonica.value.length == 0 && fGroup.value.hedonica && validar" class="text-muted">*Obrigatório</small>
+          </div>
+          <div class="form-group col-12" *ngIf="fGroup.value.hedonica">
+            <ion-label position="fixed">Descrição Hedônica</ion-label>
+            <ion-textarea formControlName="descHedonica"></ion-textarea>
+            <small *ngIf="fGroup.value.descHedonica == '' && fGroup.value.hedonica && validar" class="text-muted">*Obrigatório</small>
           </div>
         </div>
         
-
         <div class="form-group col-12">
           <input id="com" type="checkbox" formControlName="compra">
           <label class="form-check-label" for="com">
             Atutude de Compra
           </label>
+          <div class="form-group col-12" *ngIf="fGroup.value.compra">
+            <ion-label position="fixed">Descrição Compra</ion-label>
+            <ion-textarea formControlName="descCompra"></ion-textarea>
+            <small *ngIf="fGroup.value.descCompra == '' && fGroup.value.compra && validar" class="text-muted">*Obrigatório</small>
+          </div>
         </div>
         
 

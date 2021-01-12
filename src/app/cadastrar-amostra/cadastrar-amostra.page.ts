@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 
 @Component({
@@ -15,12 +16,13 @@ export class CadastrarAmostraPage implements OnInit {
   fGroup: FormGroup;
   validar = false;
   errImg = "Escolha uma imagem";
-  imagem = "";
-  err = ""; 
+  imagem = "../assets/default.png";
+  err = "";
   idUser;
   idAnalise;
   constructor(public formBuilder: FormBuilder, private camera: Camera, private photoViewer: PhotoViewer,
-    private active: ActivatedRoute, private analiseService: AnaliseService, private loadingCtrl: LoadingController, private router: Router) {
+    private active: ActivatedRoute, private analiseService: AnaliseService, private loadingCtrl: LoadingController,
+    private router: Router, private nativePageTransitions: NativePageTransitions, public alertController: AlertController) {
     this.fGroup = this.formBuilder.group({
       nome: new FormControl('', Validators.required),
       numero: new FormControl("", Validators.compose([
@@ -61,20 +63,14 @@ export class CadastrarAmostraPage implements OnInit {
       });
       load.present();
       await this.analiseService.saveAmostra(form).then(res => {
-        console.log(res);        
+        console.log(res);
       }, (error) => {
         console.log(error);
       }
       ).catch(console.error);
       load.dismiss();
-      if(!confirm("Cadastrar outra amostra nessa mesma análise?")){
-        this.router.navigate(['usuario-logado', {id_user: this.idUser}]);
-      }
-      else {
-        this.validar = false;
-        this.imagem = "";
-        this.fGroup.reset();
-      }
+      this.presentAlert("Cadastrar outra amostra?");
+
     }
   }
 
@@ -129,14 +125,60 @@ export class CadastrarAmostraPage implements OnInit {
       })
 
   }
-  sair(){
+  sair() {
+    this.back();
     this.router.navigate(['home']);
   }
-  goHome(){
-    this.router.navigate(['usuario-logado', {id_user: this.idUser}]);
+  goHome() {
+    this.back();
+    this.router.navigate(['usuario-logado', { id_user: this.idUser }]);
   }
-  goPerfil(){
+  goPerfil() {
+    this.nextPage();
+    this.router.navigate(["perfil", { id_user: this.idUser }]);
+  }
+  nextPage() {
+    let options: NativeTransitionOptions = {
+      direction: 'left',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
+  back() {
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'alerta',
+      header: "",
+      message: message,
+      buttons: [
+        {
+          text: 'Não',
+          cssClass: 'alertBtn',
+          handler: () => {
+            this.nextPage();
+            this.goHome();
+          }
+        },
+        {
+          text: 'Sim',
+          cssClass: 'alertBtn',
+          handler: () => {
+            this.validar = false;
+            this.imagem = "../assets/default.png";
+            this.fGroup.reset();
 
-    this.router.navigate(["perfil", {id_user: this.idUser}]);
+          }
+        }
+      ],
+    });
+    await alert.present();
   }
 }

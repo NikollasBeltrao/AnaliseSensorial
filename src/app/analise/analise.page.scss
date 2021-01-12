@@ -1,70 +1,90 @@
-
 #analiseForm {
-    margin: 10px;
+    margin: 20px;
     padding: 0px;
     border-radius: 6px;
     background-color: white;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
 }
-.formC .form-row{ 
-    width: 100%;     
+
+.formC .form-row {
+    width: 100%;
 }
-.formC .form-row .col-12, .formC .col-12{    
-    padding: 10px 20px 10px 20px;       
+
+.formC .form-row .col-12,
+.formC .col-12 {
+    padding: 10px 20px 10px 20px;
 }
 
 #analiseForm {
     height: auto;
 }
-.radioB{
+
+.radioB {
     float: left !important;
 }
-.card-header{
+
+.card-header {
     font-size: 18px;
     color: black;
 }
-.tab-pane{
+
+.tab-pane {
     position: relative;
 }
-.desc{
+
+.desc {
     margin: 10px;
     text-align: justify;
 }
-.nome{
-    font-weight: 700;    
+
+.nome {
+    font-weight: 700;
 }
-.card{
+
+.card {
     margin-bottom: 20px !important;
     margin: 5px;
-    width: 97% !important;    
+    width: 97% !important;
 }
+
 .displayNone {
     display: none;
 }
-.proximo{
+
+.proximo {
     float: right;
 }
-.btn{
+
+.btn {
     width: 100px;
     height: 40px;
     bottom: 0px;
     margin-top: 20px;
 }
-#ref{
+
+#ref {
     z-index: 10;
 }
-.list-group{
-    padding: 20px 20px 0px 20px;    
+
+.list-group {
+    padding: 20px 20px 0px 20px;
     background-color: transparent;
 }
 
-#todo{
+#todo {
     height: auto;
-    
 }
+
 .list-group-item {
     min-height: 120px;
+    -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
 }
-#noData{
+
+#noData {
     opacity: 0.7;
     display: flex;
     flex-direction: column;
@@ -72,19 +92,24 @@
     align-items: center;
     margin-top: 40px;
 }
-#noData img{
+
+#noData img {
     width: 200px;
     height: 200px;
 }
+
 .bg-rosa {
     background-color: #EDC6E5;
 }
+
 .bg-amarelo {
     background-color: #FFFAB0;
 }
+
 .bg-azul {
     background-color: #BEF6DB;
 }
+
 .bg-laranja {
     background-color: #FFCBA9;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { LoadingController } from '@ionic/angular';
 import { UsuarioService } from 'src/services/usuario.service';
 
@@ -14,13 +15,14 @@ export class CriarUsuarioPage implements OnInit {
   senhaInvalida: boolean = false;
   submerter: boolean = false;
   id_user;
-  constructor(public active: ActivatedRoute, public formBuilder: FormBuilder, private route: Router, public loading: LoadingController, public usuarioService: UsuarioService) {
+  constructor(public active: ActivatedRoute, public formBuilder: FormBuilder, private route: Router,
+     public loading: LoadingController, public usuarioService: UsuarioService,  private nativePageTransitions: NativePageTransitions) {
     this.fGroup = this.formBuilder.group({
       nome: new FormControl('', Validators.required),
       matricula: new FormControl('', Validators.required),
       senha: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
       rsenha: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
-      permissoes: new FormControl(2, Validators.required)
+      permissoes: new FormControl(1, Validators.required)
     });
   }
 
@@ -59,11 +61,32 @@ export class CriarUsuarioPage implements OnInit {
       });
     }
   }
-  goHome(){
+  goHome() {
+    this.back();
+    this.route.navigate(["usuario-logado", { id_user: this.id_user }]);
+  }
+  goPerfil() {
+    this.nextPage();
+    this.route.navigate(["perfil", { id_user: this.id_user }]);
+  }
+  sair() {
+    this.back();
     this.route.navigate(["home"]);
   }
-  goPerfil(){
-    
-    this.route.navigate(["perfil", {id_user: this.id_user}]);
+  nextPage() {
+    let options: NativeTransitionOptions = {
+      direction: 'left',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
+  back() {
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
   }
 }

@@ -4,6 +4,7 @@ import { AnaliseService } from 'src/services/analise.service';
 import chartJs from 'chart.js';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 @Component({
   selector: 'app-listar-respostas',
   templateUrl: './listar-respostas.page.html',
@@ -16,13 +17,16 @@ export class ListarRespostasPage implements OnInit {
   @ViewChild('pieCanvas') pieCanvas;
   constructor(private analiseService: AnaliseService, private active: ActivatedRoute, private route: Router,
     private photoViewer: PhotoViewer, public loading: LoadingController, public alertController: AlertController,
-    private navCtrl: NavController) { }
+    private navCtrl: NavController, private nativePageTransitions: NativePageTransitions) { }
   barchar: any;
   barchar2: any;
   piechar: any;
   idUser = '';
   err = "";
-  async ngOnInit() {
+  ngOnInit() {
+    this.carregarRespostas();
+  }
+  async carregarRespostas() {
     let load = await this.loading.create({
       message: 'Carregando',
     });
@@ -55,6 +59,14 @@ export class ListarRespostasPage implements OnInit {
     }, 150
     );
   }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.carregarRespostas();
+      event.target.complete();
+    }, 2000);
+  }
+
   getChart(centext, chartType, data, options?) {
     return new chartJs(centext, {
       data,
@@ -106,13 +118,33 @@ export class ListarRespostasPage implements OnInit {
     return this.getChart(this.pieCanvas.nativeElement, 'pie', data);
   }
   goHome() {
-    this.route.navigate(["home"]);
+    this.back();
+    this.route.navigate(["usuario-logado", { id_user: this.idUser }]);
   }
   goPerfil() {
-
+    this.nextPage();
     this.route.navigate(["perfil", { id_user: this.idUser }]);
   }
-
+  sair() {
+    this.back();
+    this.route.navigate(["home"]);
+  }
+  nextPage(){
+    let options: NativeTransitionOptions = {
+      direction: 'left',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
+  back(){
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
   async presentAlert(message) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
