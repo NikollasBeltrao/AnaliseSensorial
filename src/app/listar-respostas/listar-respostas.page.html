@@ -20,61 +20,57 @@
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Carregando...">
+        <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+            refreshingSpinner="circles" refreshingText="Carregando...">
         </ion-refresher-content>
     </ion-refresher>
-    <ul class="list-group" *ngFor=" let a of analise">
-        <li class="list-group-item flex-column align-items-start">
+    <ul class="list-group lista-analises" *ngFor=" let a of analise">
+        <li class="list-group-item flex-column align-items-start topo-analise">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1"><strong>{{a.titulo_analise}}</strong></h5>
                 <small>{{a.data}}</small>
             </div>
 
             <p class="mb-1">{{a.desc_analise}}</p>
-            <strong>{{a.nome_user}}: </strong>
+            <strong>{{a.nome_user}} </strong>
             <small>{{a.matricula_user}}</small>
         </li>
-        <div class="card" style="width: 100vw;" *ngFor=" let amostra of a.amostras">
-            <li class="list-group-item active">Amostra {{amostra.numero_amostra}}</li>
-            <img class="card-img-top" src={{amostra.img_amostra}} alt="Card image cap" (click)="imgFull(amostra.img_amostra)">
-            <div class="card-body">
-                <h5 class="card-title">{{amostra.nome_amostra}}</h5>
-                <p class="card-text">Número: {{amostra.numero_amostra}}</p>
-                <p class="card-text">{{amostra.desc_amostra}}</p>
-            </div>
+        <div class="card" *ngFor=" let amostra of a.amostras; let i = index">
+            <li class="list-group-item {{bgs[bg(i)]}}">Amostra {{amostra.numero_amostra}}</li>
+            <img class="card-img-top" src={{amostra.img_amostra}} alt="Card image cap"
+                (click)="imgFull(amostra.img_amostra)">
+            <ul class="card-body">
+                <li><strong>{{amostra.nome_amostra}}</strong></li>
+                <li><strong>Número: </strong> {{amostra.numero_amostra}}</li>
+                <li><strong>Descrição: </strong>{{amostra.desc_amostra}}</li>
+            </ul>
             <!--<canvas #barCanvas></canvas>-->
-            <li class="list-group-item active">Respostas</li>
-            <div id="respostas" *ngFor=" let escala of amostra.escalas">
-                <h3>{{escala.nome_escala}}</h3>
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Faixa etária</th>
-                            <th scope="col">Consumo</th>
-                            <th scope="col" *ngFor=" let atributo of escala.atributos">{{atributo.nome_atributo}}</th>
-                        </tr>
+            <div id="respostas"  *ngFor=" let escala of amostra.escalas">
+                <li class="list-group-item {{bgs[bg(i)]}}">{{escala.nome_escala}}</li>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Faixa etária</th>
+                                <th scope="col">Consumo</th>
+                                <th scope="col" *ngFor=" let atributo of escala.atributos">{{atributo.nome_atributo}}
+                                </th>
+                            </tr>
 
-                    </thead>
-                    <tbody *ngFor=" let escalaR of escala.escala_resposta">
-                        <tr>
-                            <td>{{escalaR.faixa_etaria}}</td>
-                            <td>{{escalaR.frequencia_consumo}}</td>
-                            <td *ngFor=" let resposta of escalaR.respostas">{{resposta.valor_resposta}}</td>
-                        </tr>
-                        <tr class="bg-secondary">
-
-                        </tr>
-                        <tr>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <br><br>
-
+                        </thead>
+                        <tbody >
+                            <tr *ngFor=" let escalaR of escala.escala_resposta">
+                                <td>{{escalaR.nome_aluno}}</td>
+                                <td>{{escalaR.faixa_etaria}}</td>
+                                <td>{{escalaR.frequencia_consumo}}</td>
+                                <td *ngFor=" let resposta of escalaR.respostas">{{resposta.valor_resposta}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>           
         </div>
-
     </ul>
 
 

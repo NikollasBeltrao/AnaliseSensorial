@@ -107,13 +107,15 @@
     width: 200px;
     height: 30px;
     background-color: transparent;
-   
+    outline: thin dotted;
+    outline: 0px auto -webkit-focus-ring-color !important;
+    outline-offset: 0px !important; 
 }
 #over form input:focus{
-  outline: thin dotted;
-  outline: 1px auto #6DBBAA;
+  
   border: none;
   outline-offset: 0px;
+  border: solid 2px #6DBBAA;
 }
 #over form small{
     color: red;
@@ -126,3 +128,39 @@
       float: left;
       background: linear-gradient(to top, rgb(0,0,0), rgba(0,0,0,0.800), rgba(0,0,0,0.700), rgba(0,0,0,0.600));
   }
+
+.inp-senha {
+  width: 200px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  border: solid 1px black;
+  border-radius: 3px;
+}
+.inp-senha:focus-within{
+  border: solid 2px #6DBBAA;  
+}
+.inp-senha input{
+  width: 170px !important;
+  border: none !important;
+
+  
+}
+.inp-senha input:focus{
+  border-color: #6DBBAA;
+}
+.inp-senha button{
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  border-left: none;
+  padding: 5px;
+  outline: thin dotted;
+  outline: 0px auto -webkit-focus-ring-color !important;
+  outline-offset: 0px !important; 
+}
+.inp-senha button ion-icon{
+  font-size: 20px;
+  color:rgb(87, 86, 86);
+}

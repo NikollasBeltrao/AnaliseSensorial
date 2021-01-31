@@ -12,7 +12,10 @@
           </div>
           <input type="text" formControlName="matricula" placeholder="Matrícula">
 
-          <input type="password" formControlName="senha" placeholder="Senha">
+          <div class="inp-senha">
+            <input  type={{tipoCampoSenha}} formControlName="senha" placeholder="Senha">
+            <button (click)="verSenha()" id="btn-sen" type="button"><ion-icon name="{{tipoCampoSenha === 'password'? 'eye-off' : 'eye'}}"></ion-icon></button>
+          </div>
 
           <small *ngIf="fGroup.invalid && validar">*Preencha todos os campos</small>
           <small>{{error.message}}</small>

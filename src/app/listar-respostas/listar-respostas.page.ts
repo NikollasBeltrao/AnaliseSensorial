@@ -23,6 +23,7 @@ export class ListarRespostasPage implements OnInit {
   piechar: any;
   idUser = '';
   err = "";
+  bgs = ['bg-azul', 'bg-laranja', 'bg-rosa', 'bg-amarelo'];
   ngOnInit() {
     this.carregarRespostas();
   }
@@ -35,6 +36,7 @@ export class ListarRespostasPage implements OnInit {
       this.idUser = params['id_user'];
       await this.analiseService.getAnalise(params['id']).then(data => {
         this.analise = data;
+        console.log(data);
         this.amostras = data[0].amostras;
       }, err => {
         this.presentAlert("Erro ao carregar os dados");
@@ -161,5 +163,11 @@ export class ListarRespostasPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+  bg(i) {
+    if (i >= this.bgs.length) {
+      return i % this.bgs.length;
+    }
+    return i;
   }
 }

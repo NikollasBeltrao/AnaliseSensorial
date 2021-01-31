@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Usuario } from 'src/modal/usuario';
 import { UsuarioService } from 'src/services/usuario.service';
@@ -24,7 +25,8 @@ export class PerfilPage implements OnInit {
   confirmarSenha = false;
 
   constructor(public active: ActivatedRoute, public formBuilder: FormBuilder, private route: Router,
-    public loading: LoadingController, public usuarioService: UsuarioService, public alertController: AlertController) {
+    public loading: LoadingController, public usuarioService: UsuarioService, public alertController: AlertController,
+    private nativePageTransitions: NativePageTransitions) {
     this.usuario = new Usuario();
   }
 
@@ -38,7 +40,7 @@ export class PerfilPage implements OnInit {
         then(response => {
           this.usuario = response
         }, (err) => {
-          this.presentAlert("Erro ao conectar ao carregar os dados");
+          this.presentAlert("Erro ao conectar ao carregar os dados", 'Erro');
         });
 
     });
@@ -46,9 +48,17 @@ export class PerfilPage implements OnInit {
   }
 
   goHome() {
-    this.route.navigate(["home"]);
+    this.back();
+    this.route.navigate(["usuario-logado", { id_user: this.usuario.id_user }]);
   }
-
+  back() {
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+    }
+    this.nativePageTransitions.slide(options)
+      .catch(console.error);
+  }
 
   verificarSenha() {
     this.validarSenha = true;
@@ -92,17 +102,22 @@ export class PerfilPage implements OnInit {
       form.append("nome", this.usuario.nome_user);
       form.append("matricula", this.usuario.matricula_user);
       if ((this.novaSenha != '' && !this.novaSenhaIncorreta && this.confirmarSenha) || (this.novaSenha === '')) {
-        await this.usuarioService.alterUser(form).then(res => {          
+        await this.usuarioService.alterUser(form).then(res => {
+          console.log(res)
+          if (JSON.parse(res).response){
+            this.presentAlert("Dados alterados com sucesso", "");
+          }
         });
       }
     }
+
     load.dismiss();
   }
 
-  async presentAlert(message) {
+  async presentAlert(message, head) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
-      header: "Erro",
+      header: head,
       message: message,
       buttons: [
         {

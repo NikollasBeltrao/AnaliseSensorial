@@ -15,6 +15,7 @@ export class LoginPage implements OnInit {
   error: any = {
     message: ""
   }
+  tipoCampoSenha = "password";
   validar = false;
   usuario: Usuario;
   fGroup: FormGroup;
@@ -95,5 +96,15 @@ export class LoginPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  verSenha() {
+    if (this.tipoCampoSenha === "password") {
+      this.tipoCampoSenha = "text";
+    }
+    else {
+      this.tipoCampoSenha = "password";
+
+    }
   }
 }
