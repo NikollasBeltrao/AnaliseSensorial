@@ -47,7 +47,7 @@
         <a class="nav-link active displayNone" id="tpasso0" data-toggle="tab" href="#passo0" role="tab"
           aria-controls="passo0" aria-selected="true"></a>
       </li>
-      <li class="nav-item displayNone" *ngFor="let escala of escalas; let j = index">
+      <li class="nav-item displayNone" *ngFor="let amostra of amostras; let j = index">
         <a class="nav-link" id=tpasso{{j+1}} data-toggle="tab" href=#passo{{j+1}} role="tab" aria-selected="false"></a>
       </li>
     </ul>
@@ -81,7 +81,7 @@
             </div>
 
             <div class="col-12">
-              <label for="radioS1">Qual o seu sexo?</label>
+              <label for="radioS1">Qual o seu gênero?</label>
               <div class="custom-control custom-radio">
                 <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
                 <label class="custom-control-label" for="customRadio1">Masculino</label>
@@ -89,6 +89,10 @@
               <div class="custom-control custom-radio">
                 <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
                 <label class="custom-control-label" for="customRadio2">Feminino</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="customRadio3">ou outro</label>
               </div>
             </div>
 
@@ -109,20 +113,20 @@
 
         </div>
 
-        <div class="tab-pane fade" id=passo{{i+1}} role="tabpanel"
-          *ngFor="let escala of escalas; let i = index; first as isFirst; last as isLast">
+        <div class="tab-pane fade" id=passo{{a+1}} role="tabpanel"
+          *ngFor="let amosta of amostras; let a = index; first as isFirst; last as isLast">
           <div class="form-row formC">
-            <div class="col-12">
-              <h3 class="nome">{{escala.nome_escala}}</h3>
-              <p class="desc">{{escala.desc_escala}}</p>
+            <div class="col-12">              
+              <h3 class="nome">Amostra: {{amosta.numero_amostra}}</h3>
             </div>
 
-            <div class="card" *ngFor="let amosta of amostras; let a = index">
+            <div class="card" *ngFor="let escala of amosta.escalas; let i = index">
               <label class="card-header {{bgs[bg(a)]}}">
-                {{amosta.nome_amostra}} {{amosta.numero_amostra}}
+                {{escala.nome_escala}}
               </label>
               <div class="card-body">
                 <div class="form-row">
+                  
                   <div class="form-group col-md-6" *ngFor="let atributo of escala.atributos; let j = index">
                     <label for="validationTooltip02">{{atributo.nome_atributo}}</label>
                     <select class="custom-select" [(ngModel)]="respostas[0].amostras[a].escalas[i].respostas[j].valor"
@@ -153,8 +157,8 @@
               </div>
             </div>
             <div class="col-12">
-              <button class="anterior btn" id="{{i}}" onclick="show(this)">Anterior </button>
-              <button *ngIf="!isLast" class="proximo btn" id="{{i+2}}" onclick="show(this)">Próximo</button>
+              <button class="anterior btn" id="{{a}}" onclick="show(this)">Anterior </button>
+              <button *ngIf="!isLast" class="proximo btn" id="{{a+2}}" onclick="show(this)">Próximo</button>
               <button *ngIf="isLast" class="btn proximo" (click)="submit()">Finalizar</button>
             </div>
 

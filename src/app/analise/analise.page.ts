@@ -17,7 +17,7 @@ export class AnalisePage implements OnInit {
   amostras: Array<any>;
   escalas: Array<any>
   escolherAnalise = true;
-  bgs = ['bg-azul','bg-laranja', 'bg-rosa', 'bg-amarelo'];
+  bgs = ['bg-azul', 'bg-laranja', 'bg-rosa', 'bg-amarelo'];
   a;
   constructor(private analiseService: AnaliseService, public loading: LoadingController, private router: Router,
     public alertController: AlertController, private nativePageTransitions: NativePageTransitions) {
@@ -28,11 +28,12 @@ export class AnalisePage implements OnInit {
 
   ngOnInit() {
     this.carregarAnalises();
+    
   }
-  async presentAlert(message) {
+  async presentAlert(message, finalizar?) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
-      header: "Erro",
+      header: (finalizar? finalizar : "Erro"),
       message: message,
       buttons: [
         {
@@ -49,9 +50,9 @@ export class AnalisePage implements OnInit {
   sair() {
     if (this.escolherAnalise) {
       this.goHome();
-    }    
+    }
     let options: NativeTransitionOptions = {
-      duration: 400,    
+      duration: 400,
     }
     this.nativePageTransitions.fade(options)
       .catch(console.error);
@@ -64,7 +65,7 @@ export class AnalisePage implements OnInit {
   async getAnalise(id) {
     let options: NativeTransitionOptions = {
       direction: 'left',
-      duration: 400,    
+      duration: 400,
     }
     this.nativePageTransitions.slide(options)
       .catch(console.error);
@@ -73,10 +74,17 @@ export class AnalisePage implements OnInit {
     });
     load.present();
     await this.analiseService.getAllAnalise(id).then(data => {
+      console.log(data);
       if (data[0]) {
         this.analise = data[0];
-        this.amostras = data[0].amostras;
-        this.escalas = data[0].amostras[0].escalas;
+        if (data[0].amostras) {
+          this.amostras = data[0].amostras;
+          this.escalas = data[0].amostras[0].escalas;
+        }
+        else {
+          this.amostras = [];
+          this.escalas = [];
+        }
       }
     }, (err) => {
       setTimeout(() => {
@@ -129,7 +137,8 @@ export class AnalisePage implements OnInit {
     let form = new FormData();
     form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
     await this.analiseService.saveRespostas(form).then(res => {
-
+      this.presentAlert("Obrigado por participar (;", ' ');
+      this.sair();      
     }, (err) => {
       setTimeout(() => {
         load.dismiss();
@@ -147,8 +156,8 @@ export class AnalisePage implements OnInit {
 
   }
 
-  bg(i){
-    if(i >= this.bgs.length){
+  bg(i) {
+    if (i >= this.bgs.length) {
       return i % this.bgs.length;
     }
     return i;
@@ -157,12 +166,12 @@ export class AnalisePage implements OnInit {
   goHome() {
     let options: NativeTransitionOptions = {
       direction: 'right',
-      duration: 400,    
+      duration: 400,
     }
     this.nativePageTransitions.slide(options)
       .catch(console.error);
     this.escolherAnalise = false;
     this.sair();
-    this.router.navigate(['home']);    
+    this.router.navigate(['home']);
   }
 }
