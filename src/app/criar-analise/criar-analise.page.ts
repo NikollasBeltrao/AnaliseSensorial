@@ -25,11 +25,12 @@ export class CriarAnalisePage implements OnInit {
       titulo: new FormControl('', Validators.required),
       hedonica: new FormControl(''),
       compra: new FormControl(''),
-      desc: new FormControl('', Validators.required),
+      desc: new FormControl(''),
       atributosHedonica: new FormControl([]),
       atributosCompra: new FormControl([]),
-      descCompra: new FormControl(''),
-      descHedonica: new FormControl(''),
+      descCompra: new FormControl('Agora avalie quanto à sua atitude de compra'),
+      descHedonica: new FormControl('Você está recebendo ---- amostras de -----. Avalie cada amostra e utilize a escala abaixo para identificar o quanto você gostou/desgostou ' +
+      'de cada amostra quanto à ----, ----, ----, ---- e ----. Prove as amostras da esquerda para direita.'),
     });
   }
 

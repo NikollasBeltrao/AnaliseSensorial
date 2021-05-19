@@ -20,7 +20,7 @@
     <div id="cont">
         <h5>Bem-vindo(a) {{usuario.nome_user}}</h5>
         <div id="btns">
-            <button (click)="listarAnalises()" class="{{bgs[bg(0)]}}">Ver análises</button>
+            <button (click)="listarAnalises()" class="{{bgs[bg(0)]}}">Ver resultados</button>
             <button (click)="cadastrarAnalise()" class="{{bgs[bg(1)]}}">Nova análise</button>
             <button *ngIf="usuario.permissoes >= 2" (click)="listarUsuarios()" class="{{bgs[bg(2)]}}">Ver usuários</button>
             <button *ngIf="usuario.permissoes >= 2" (click)="cadastrarUsuario()" class="{{bgs[bg(3)]}}">Novo usuário</button>

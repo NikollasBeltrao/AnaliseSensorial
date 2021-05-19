@@ -28,7 +28,7 @@ export class AnalisePage implements OnInit {
 
   ngOnInit() {
     this.carregarAnalises();
-    
+
   }
   async presentAlert(message, finalizar?) {
     const alert = await this.alertController.create({
@@ -137,7 +137,7 @@ export class AnalisePage implements OnInit {
     let form = new FormData();
     form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
     await this.analiseService.saveRespostas(form).then(res => {
-      this.presentAlert("Obrigado por participar (;", ' ');
+      this.presentAlert("Obrigado por participar da pesquisa !!! 😉", ' ');
       this.sair();      
     }, (err) => {
       setTimeout(() => {
