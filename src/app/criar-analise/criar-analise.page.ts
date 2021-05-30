@@ -145,18 +145,11 @@ export class CriarAnalisePage implements OnInit {
   async presentAlert(idAnalise) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
-      header: "Cadastrar amostras agora?",
+      header: "Sucesso",
       message: "Você será redirecionado para a página de cadastro de amostras",
-      buttons: [
+      buttons: [        
         {
-          text: 'Não',
-          cssClass: 'alertBtn',
-          handler: () => {
-            console.log('Não');
-          }
-        },
-        {
-          text: 'Sim',
+          text: 'Ok',
           cssClass: 'alertBtn',
           handler: () => {
             this.nextPage();

@@ -7,11 +7,20 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 
+
+interface Amostra {
+  nome?: string;
+  desc: string;
+  analise: string;
+  numero: number;
+  img: string;
+}
 @Component({
   selector: 'app-cadastrar-amostra',
   templateUrl: './cadastrar-amostra.page.html',
   styleUrls: ['./cadastrar-amostra.page.scss'],
 })
+
 export class CadastrarAmostraPage implements OnInit {
   fGroup: FormGroup;
   validar = false;
@@ -20,6 +29,7 @@ export class CadastrarAmostraPage implements OnInit {
   err = "";
   idUser;
   idAnalise;
+  amostras = Array<Amostra>();
   constructor(public formBuilder: FormBuilder, private camera: Camera, private photoViewer: PhotoViewer,
     private active: ActivatedRoute, private analiseService: AnaliseService, private loadingCtrl: LoadingController,
     private router: Router, private nativePageTransitions: NativePageTransitions, public alertController: AlertController) {
@@ -34,6 +44,8 @@ export class CadastrarAmostraPage implements OnInit {
       desc: new FormControl('', Validators.required),
     });
 
+    this.criarAmostra();
+
   }
 
   async ngOnInit() {
@@ -43,38 +55,73 @@ export class CadastrarAmostraPage implements OnInit {
     });
   }
 
-  imgFull() {
-    if (this.imagem != "") {
-      this.photoViewer.show(this.imagem);
+  criarAmostra() {
+    if (this.amostras.length === 0) {
+      this.amostras.push({
+        nome: '',
+        desc: '',
+        analise: this.idAnalise,
+        numero: Math.floor(Math.random() * (999 - 100) + 100),
+        img: '',
+      })
+    }
+    else if (this.amostras.length < 5) {
+      let numero = 0;
+      let existe = true;
+      do {
+        numero = Math.floor(Math.random() * (999 - 100) + 100);
+      } while (this.amostras.filter((el) => (el.numero === numero)).length > 0);
+      this.amostras.push({
+        nome: '',
+        desc: '',
+        analise: this.idAnalise,
+        numero: numero,
+        img: '',
+      })
+    }
+    console.log(this.amostras);
+  }
+  removerAmostra(i: number) {
+    if (this.amostras.length > 1) {
+      this.amostras.splice(i, 1);
+    }
+  }
+
+  imgFull(i: number) {
+    if (this.amostras[i].img != "") {
+      this.photoViewer.show(this.amostras[i].img);
     }
   }
 
   async cadastrar() {
     this.validar = true;
-    if (this.fGroup.valid && this.imagem != '') {
+    let ok = false;
+    await this.amostras.map(async (el, i)  => {
+
       let form = new FormData();
-      form.append("nome", this.fGroup.value.nome);
-      form.append("numero", this.fGroup.value.numero);
-      form.append("desc", this.fGroup.value.desc);
-      form.append("analise", this.idAnalise);
-      form.append("img", this.imagem);
+      form.append("nome", el.nome);
+      form.append("numero", el.numero.toString());
+      form.append("desc", el.desc);
+      form.append("analise", this.idAnalise.toString());
+      form.append("img", el.img);
       let load = await this.loadingCtrl.create({
         message: 'Carregando',
       });
       load.present();
       await this.analiseService.saveAmostra(form).then(res => {
-        console.log(res);
+        if (i === this.amostras.length -1) {
+          this.presentAlert("Amostra(s) cadastradas com sucesso");
+        }
       }, (error) => {
         console.log(error);
       }
       ).catch(console.error);
-      load.dismiss();
-      this.presentAlert("Cadastrar outra amostra?");
-
-    }
+      load.dismiss();      
+    })
+    
   }
 
-  async getGallery() {
+  async getGallery(i: number) {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -89,7 +136,7 @@ export class CadastrarAmostraPage implements OnInit {
     await this.camera.getPicture(options)
       .then((imageData) => {
         let b = 'data:image/jpeg;base64,' + imageData;
-        this.imagem = b;
+        this.amostras[i].img = b;
 
 
         //this.analiseService.saveAalise(base64image);
@@ -102,7 +149,7 @@ export class CadastrarAmostraPage implements OnInit {
 
   }
 
-  async takePicture() {
+  async takePicture(i: number) {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -116,7 +163,7 @@ export class CadastrarAmostraPage implements OnInit {
     await this.camera.getPicture(options)
       .then((imageData) => {
         let b = 'data:image/jpeg;base64,' + imageData;
-        this.imagem = b;
+        this.amostras[i].img = b;
       }, (error) => {
         this.errImg = error;
       })
@@ -156,26 +203,15 @@ export class CadastrarAmostraPage implements OnInit {
   async presentAlert(message) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
-      header: "",
+      header: "Sucesso",
       message: message,
-      buttons: [
+      buttons: [        
         {
-          text: 'Não',
-          cssClass: 'alertBtn',
+          text: 'OK',
+          cssClass: 'alertBtn', 
           handler: () => {
-            this.nextPage();
             this.goHome();
-          }
-        },
-        {
-          text: 'Sim',
-          cssClass: 'alertBtn',
-          handler: () => {
-            this.validar = false;
-            this.imagem = "../assets/default.png";
-            this.fGroup.reset();
-
-          }
+          }      
         }
       ],
     });

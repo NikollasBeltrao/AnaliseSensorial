@@ -37,7 +37,7 @@
         </li>
         <div class="card" *ngFor=" let amostra of a.amostras; let i = index">
             <li class="list-group-item {{bgs[bg(i)]}}">Amostra {{amostra.numero_amostra}}</li>
-            <img class="card-img-top" src={{amostra.img_amostra}} alt="Card image cap"
+            <img class="card-img-top" src={{amostra.img_amostra}} onError="this.src='../assets/default.png'" alt="Card image cap"
                 (click)="imgFull(amostra.img_amostra)">
             <ul class="card-body">
                 <li><strong>{{amostra.nome_amostra}}</strong></li>
