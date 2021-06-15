@@ -88,7 +88,7 @@ export class UsuarioLogadoPage implements OnInit {
   cadastrarUsuario() {
     this.backButtonSubscription.unsubscribe();
     this.nextPage();
-    this.route.navigate(["criar-usuario", { id_user: this.usuario.id_user }]);
+    this.route.navigate(["criar-usuario", { id_user: this.usuario.id_user , tipo_user: 2}]);
   }
   sair() {
     this.backButtonSubscription.unsubscribe();

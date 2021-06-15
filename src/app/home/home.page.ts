@@ -46,4 +46,10 @@ export class HomePage implements OnInit, ViewDidEnter, OnDestroy {
     this.backButtonSubscription.unsubscribe();
     this.route.navigate(['analise']);
   }
+  goToNovoUsuario(){
+    this.nativePageTransitions.slide(this.options)
+      .catch(console.error);
+    this.backButtonSubscription.unsubscribe();
+    this.route.navigate(["criar-usuario", { id_user: 0 , tipo_user: 1}]);
+  }
 }

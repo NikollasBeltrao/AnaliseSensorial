@@ -3,12 +3,12 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Novo Usuário</ion-title>
+        <ion-title>Novo Pesquisador</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="goHome()">
+            <ion-button *ngIf="this.tipo_user === '2'" (click)="goHome()">
                 <ion-icon class="icon-bar" name="home-outline"></ion-icon>
             </ion-button>
-            <ion-button (click)="goPerfil()">
+            <ion-button *ngIf="this.tipo_user === '2'" (click)="goPerfil()">
                 <ion-icon class="icon-bar" name="person-circle-outline"></ion-icon>
             </ion-button>
             <ion-button (click)="sair()">
@@ -23,11 +23,11 @@
         <form [formGroup]="fGroup" (ngSubmit)="submit()">
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <input type="text" class="form-control" id="nome" formControlName="nome" placeholder="Digite o nome do estudante">
+                <input type="text" class="form-control" id="nome" formControlName="nome" placeholder="Nome">
             </div>
             <div class="form-group">
-                <label for="mat">Matrícula</label>
-                <input type="text" class="form-control" id="mat" formControlName="matricula" placeholder="Digite a matrícula do estudante">
+                <label for="mat">Matrícula/Login</label>
+                <input type="text" class="form-control" id="mat" formControlName="matricula" placeholder="Matrícula/Login">
             </div>
             <div class="form-group">
                 <label for="senha">Senha</label>
@@ -42,11 +42,11 @@
                 <small *ngIf="senhaInvalida" id="errrsenha" class="form-text text-muted red">*As senhas devem ser
                     iguais</small>
             </div>
-            <div class="form-group">
+            <div *ngIf="this.tipo_user === '2'" class="form-group">
                 <label for="per">Permissões</label>
                 <select class="form-control" id="per" formControlName="permissoes">
-                    <option value="1">1 - Estudante (Criar e Visualiar)</option>
-                    <option value="2">2 - Administrador (Criar, Visualiar, Editar e Excluir)</option>
+                    <option value="1">1 - Pesquisador/Estudante (Criar e Visualiar)</option>
+                    <option value="2">2 - Professor/Administrador (Criar, Visualiar, Editar)</option>
                 </select>
             </div>
             <div class="form-group">

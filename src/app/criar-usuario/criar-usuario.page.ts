@@ -14,6 +14,7 @@ export class CriarUsuarioPage implements OnInit {
   fGroup: FormGroup;
   senhaInvalida: boolean = false;
   submerter: boolean = false;
+  tipo_user;
   id_user;
   constructor(public active: ActivatedRoute, public formBuilder: FormBuilder, private route: Router,
      public loading: LoadingController, public usuarioService: UsuarioService,  private nativePageTransitions: NativePageTransitions) {
@@ -29,6 +30,7 @@ export class CriarUsuarioPage implements OnInit {
   ngOnInit() {
     this.active.params.subscribe(async parms => {
       this.id_user = parms["id_user"];
+      this.tipo_user = parms['tipo_user'];
     });
   }
   validarSenha(){
@@ -51,7 +53,7 @@ export class CriarUsuarioPage implements OnInit {
       this.usuarioService.createUser(form).then(res => {
         console.log(JSON.parse(res));
         if(JSON.parse(res).response){
-          alert("Usuário criado com sucesso");
+          alert("Pesquisador criado com sucesso");
         }
         else if (JSON.parse(res).err){
           alert('Não foi possível completar a ação');
