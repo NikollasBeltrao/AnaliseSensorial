@@ -28,6 +28,7 @@ export class CriarAnalisePage implements OnInit {
       desc: new FormControl(''),
       atributosHedonica: new FormControl([]),
       atributosCompra: new FormControl([]),
+      aux_atributos: new FormControl(''),
       descCompra: new FormControl('Agora avalie quanto à sua atitude de compra'),
       descHedonica: new FormControl('Você está recebendo ---- amostras de -----. Avalie cada amostra e utilize a escala abaixo para identificar o quanto você gostou/desgostou ' +
       'de cada amostra quanto à ----, ----, ----, ---- e ----. Prove as amostras da esquerda para direita.'),
@@ -40,11 +41,24 @@ export class CriarAnalisePage implements OnInit {
     });
   }
 
+  alterar_atributos(){
+    this.fGroup.value.atributosHedonica.splice(0, this.fGroup.value.atributosHedonica.length);
+    let aux = this.fGroup.value.aux_atributos;
+    if (aux.length > 0) {
+      aux.split(', ').forEach(el => {
+        this.fGroup.value.atributosHedonica.push({
+          display: el,
+          value: el
+        });
+      });
+    }
+    
+  }
+
   upload() {
     //console.log(form.tags);
     //form.tags = this.tagArrayToString(form.tags);
     this.fGroup.value.tags[0].value = 1;
-    console.log(this.fGroup.value.tags);
   }
 
   tagArrayToString(tagArray: string[]): any {
@@ -86,9 +100,9 @@ export class CriarAnalisePage implements OnInit {
       form.append("desc_com", this.fGroup.value.descCompra);
       if (this.fGroup.value.compra) {
         this.fGroup.value.atributosCompra = ['Atitude de Compra'];
-      }
-      var atributosH = [];
+      }      
       form.append("atributos-compra", this.fGroup.value.atributosCompra);
+      var atributosH = [];
       this.fGroup.value.atributosHedonica.forEach(element => {
         atributosH.push(element["value"]);
       });
@@ -100,7 +114,6 @@ export class CriarAnalisePage implements OnInit {
       });
       load.present();
       await this.analiseService.saveAnalise(form).then(res => {
-        console.log("respsota" + res);
         idAnalise = res["lastId"];
       }).catch(err => {
         console.error(err);

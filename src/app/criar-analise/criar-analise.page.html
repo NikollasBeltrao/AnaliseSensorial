@@ -28,10 +28,10 @@
           <input type="text" formControlName="titulo" class="form-control" id="titulo" placeholder="EX: Chocolate">
           <small *ngIf="fGroup.controls.titulo.value == '' && validar" class="text-muted">*Obrigatório</small>
         </div>
-       
-        <div class="form-group col-12" >
+
+        <div class="form-group col-12">
           <ion-label position="fixed">Descrição</ion-label>
-          <ion-textarea formControlName="desc"  id="desc"></ion-textarea>
+          <ion-textarea formControlName="desc" id="desc"></ion-textarea>
           <small *ngIf="fGroup.controls.desc.value == '' && validar" class="text-muted">*Obrigatório</small>
         </div>
 
@@ -42,16 +42,25 @@
           </label>
           <div class="form-group col-12" *ngIf="fGroup.value.hedonica">
             <ion-label position="fixed">Atributos Hedônica</ion-label>
-            <tag-input formControlName="atributosHedonica"></tag-input>
-            <small *ngIf="fGroup.controls.atributosHedonica.value.length == 0 && fGroup.value.hedonica && validar" class="text-muted">*Obrigatório</small>
+            <small for="per"><br> Você pode escolher um dos modelos de atributos abaixo.</small>
+            <select class="form-control" id="per" formControlName="aux_atributos" (change)="alterar_atributos()">
+              <option value="">Escolha um modelo</option>
+              <option value="Cor, Cheiro, Sabor, Impressão Global">Cor, Cheiro, Sabor, Impressão Global</option>
+              <option value="Aparência, Sabor, Impressão Global">Aparência, Sabor, Impressão Global</option>
+            </select>
+            <tag-input formControlName="atributosHedonica" id="atr"></tag-input>
+            <small>Obs: Os atributos serão apresentados, para o provador, na mesma ordem que forem cadastrados. </small>
+            <small *ngIf="fGroup.controls.atributosHedonica.value.length == 0 && fGroup.value.hedonica && validar"
+              class="text-muted">*Obrigatório</small>            
           </div>
           <div class="form-group col-12" *ngIf="fGroup.value.hedonica">
             <ion-label position="fixed">Descrição Hedônica</ion-label>
             <ion-textarea formControlName="descHedonica"></ion-textarea>
-            <small *ngIf="fGroup.value.descHedonica == '' && fGroup.value.hedonica && validar" class="text-muted">*Obrigatório</small>
+            <small *ngIf="fGroup.value.descHedonica == '' && fGroup.value.hedonica && validar"
+              class="text-muted">*Obrigatório</small>
           </div>
         </div>
-        
+
         <div class="form-group col-12">
           <input id="com" type="checkbox" formControlName="compra">
           <label class="form-check-label" for="com">
@@ -60,16 +69,16 @@
           <div class="form-group col-12" *ngIf="fGroup.value.compra">
             <ion-label position="fixed">Descrição Compra</ion-label>
             <ion-textarea formControlName="descCompra"></ion-textarea>
-            <small *ngIf="fGroup.value.descCompra == '' && fGroup.value.compra && validar" class="text-muted">*Obrigatório</small>
+            <small *ngIf="fGroup.value.descCompra == '' && fGroup.value.compra && validar"
+              class="text-muted">*Obrigatório</small>
           </div>
         </div>
-        
 
         <div class="form-group col-12">
           <small class="text-muted"
             *ngIf="(!this.fGroup.value.hedonica && !this.fGroup.value.compra) && validar ">Escolha pelo menos uma
             das opções</small>
-        </div>        
+        </div>
       </div>
 
       <button class="btn" type="submit">Cadastrar</button>

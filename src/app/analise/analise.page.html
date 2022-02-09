@@ -5,7 +5,7 @@
         <ion-icon style="font-size: 30px;" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{analise.titulo_analise ? analise.titulo_analise : 'Análises Disponíveis' }}</ion-title>
+    <ion-title>{{analise.titulo_analise ? analise.titulo_analise : 'Pesquisar Análise' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="goHome()" title="Sair">
         <ion-icon class="icon-bar" name="home-outline"></ion-icon>
@@ -15,33 +15,30 @@
 </ion-header>
 
 <ion-content color="primary">
-  <ion-refresher *ngIf="escolherAnalise" slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
-      refreshingSpinner="circles" refreshingText="Carregando...">
-    </ion-refresher-content>
-  </ion-refresher>
-  <div id="noData" *ngIf="allAnalises.length == 0">
-    <img
-      src="https://png.pngtree.com/png-vector/20191208/ourlarge/pngtree-sad-vegi-burger-illustration-vector-on-white-background-png-image_2050995.jpg"
-      alt="">
-    <h4 class="text-muted">Sem analises disponíveis :(</h4>
-  </div>
   <div *ngIf="escolherAnalise" id="todo">
-    <ul class="list-group" *ngFor=" let a of allAnalises; let cores = index">
-      <li class="list-group-item align-items-start {{bgs[bg(cores)]}} " (click)="getAnalise(a.id_analise)">
-        <div class="d-flex w-100 justify-content-between ">
-          <h5 class="mb-1"><strong>{{a.titulo_analise}}</strong></h5>
-          <small>{{a.data}}</small>
+    <form class="form-codigo">
+      <div class="form-row">
+        <div class="col-12">
+          <label for="validationTooltip01">Código da análise</label>
+          <input type="text" class="form-control" maxlength="6" (keyup)="getByCode($event)" [(ngModel)]="codigo_analise"
+            name="cod" placeholder="Ex: 42r2d2">
+          <div class="invalid-tooltip">
+            Análise não encontrada !!!
+          </div>
         </div>
-
-        <p class="mb-1"><strong>Descrição: </strong>{{a.desc_analise}}</p>
-
-      </li>
-    </ul>
+      </div>
+    </form>
+  </div>
+  <div class="tab-pane instrucoes" *ngIf="instrucoes">
+    <div class="form-row" *ngIf="passos.id == 0">
+      <div class="col-12">
+        {{analise.desc_analise}}
+      </div>
+      <button id="1" class="btn" (click)="instrucoes = false  ">Ok entendi</button>
+    </div>
 
   </div>
-
-  <div id="analiseForm" *ngIf="!escolherAnalise && respostas[0]">
+  <div id="analiseForm" *ngIf="!escolherAnalise && respostas[0] && !instrucoes">
     <ul class="nav nav-tabs displayNone" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active displayNone" id="tpasso0" data-toggle="tab" href="#passo0" role="tab"
@@ -57,7 +54,7 @@
 
         <div class="tab-pane fade show active formC" id="passo0" role="tabpanel" aria-labelledby="tpasso0">
 
-          <div class="form-row">  
+          <div class="form-row" *ngIf="passos.id == 0">
 
             <div class="col-12">
               <label for="validationTooltip01">Qual é o seu nome?</label>
@@ -67,7 +64,7 @@
                 Looks good!
               </div>
             </div>
-          
+
             <div class="col-12">
               <label for="validationTooltip02">Qual sua faixa etária?</label>
               <select class="custom-select" [(ngModel)]="respostas[0].faixa" name="faixa">
@@ -82,18 +79,13 @@
 
             <div class="col-12">
               <label for="radioS1">Qual o seu gênero?</label>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                <label class="custom-control-label" for="customRadio1">Masculino</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                <label class="custom-control-label" for="customRadio2">Feminino</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
-                <label class="custom-control-label" for="customRadio3">ou outro</label>
-              </div>
+              <select class="custom-select" [(ngModel)]="respostas[0].genero" name="genero">
+                <option value="">Selecione seu gênero</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Prefiro não responder">Prefiro não responder</option>
+              </select>
+
             </div>
 
             <div class="col-12">
@@ -108,16 +100,17 @@
                 <option value="4">Nunca</option>
               </select>
             </div>
-            <div class="col-12"><button id="1" class="proximo btn" onclick="show(this)">Próximo</button></div>
+            <div class="col-12"><button id="1" class="proximo btn" (click)="proximo(1)">Próximo</button></div>
           </div>
 
         </div>
 
-        <div class="tab-pane fade" id=passo{{a+1}} role="tabpanel"
+        <div class="tab-pane fade show active" id=passo{{a+1}} role="tabpanel"
           *ngFor="let amosta of amostras; let a = index; first as isFirst; last as isLast">
-          <div class="form-row formC">
-            <div class="col-12">              
+          <div class="form-row formC" *ngIf="passos.id == (a+1)">
+            <div class="col-12">
               <h3 class="nome">Amostra: {{amosta.numero_amostra}}</h3>
+              <p class="justificar"><strong>Ingredientes</strong><br />{{amosta.desc_amostra}}</p>
             </div>
 
             <div class="card" *ngFor="let escala of amosta.escalas; let i = index">
@@ -126,7 +119,7 @@
               </label>
               <div class="card-body">
                 <div class="form-row">
-                  
+
                   <div class="form-group col-md-6" *ngFor="let atributo of escala.atributos; let j = index">
                     <label for="validationTooltip02">{{atributo.nome_atributo}}</label>
                     <select class="custom-select" [(ngModel)]="respostas[0].amostras[a].escalas[i].respostas[j].valor"
@@ -157,9 +150,9 @@
               </div>
             </div>
             <div class="col-12">
-              <button class="anterior btn" id="{{a}}" onclick="show(this)">Anterior </button>
-              <button *ngIf="!isLast" class="proximo btn" id="{{a+2}}" onclick="show(this)">Próximo</button>
-              <button *ngIf="isLast" class="btn proximo" (click)="submit()">Finalizar</button>
+              <button class="anterior btn" id="{{a}}" (click)="anterior(a)">Anterior </button>
+              <button *ngIf="!isLast" class="proximo btn" id="{{a+2}}" (click)="proximo(a+2, a)">Próximo</button>
+              <button *ngIf="isLast" class="btn proximo" (click)="proximo(-1, a)">Finalizar</button>
             </div>
 
           </div>

@@ -53,6 +53,7 @@
                             <tr>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Faixa etária</th>
+                                <th scope="col">Gênero</th>
                                 <th scope="col">Consumo</th>
                                 <th scope="col" *ngFor=" let atributo of escala.atributos">{{atributo.nome_atributo}}
                                 </th>
@@ -63,6 +64,7 @@
                             <tr *ngFor=" let escalaR of escala.escala_resposta">
                                 <td>{{escalaR.nome_aluno}}</td>
                                 <td>{{escalaR.faixa_etaria}}</td>
+                                <td>{{escalaR.genero}}</td>
                                 <td>{{escalaR.frequencia_consumo}}</td>
                                 <td *ngFor=" let resposta of escalaR.respostas">{{resposta.valor_resposta}}</td>
                             </tr>

@@ -11,29 +11,86 @@ import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/na
   styleUrls: ['./analise.page.scss'],
 })
 export class AnalisePage implements OnInit {
+  passos = {
+    id: 0,
+    err: ''
+  };
+  codigo_analise = '';
   analise;
   respostas = [];
   allAnalises: Array<any>;
   amostras: Array<any>;
   escalas: Array<any>
   escolherAnalise = true;
+  instrucoes = false;
   bgs = ['bg-azul', 'bg-laranja', 'bg-rosa', 'bg-amarelo'];
   a;
   constructor(private analiseService: AnaliseService, public loading: LoadingController, private router: Router,
     public alertController: AlertController, private nativePageTransitions: NativePageTransitions) {
     this.analise = {};
     this.allAnalises = [];
-    console.log("d");
   }
 
   ngOnInit() {
-    this.carregarAnalises();
 
   }
+  getByCode(e) {
+    if (this.codigo_analise.length == 6) {
+      this.getAnalise(e);
+    }
+  }
+  proximo(id: number, amostra?: number) {
+    switch (id) {
+      case -1:
+        var cont = 0;
+        this.respostas[0].amostras[amostra].escalas.forEach((am) => {
+          am.respostas.forEach((re) => {
+            if (re.valor == 0) {
+              cont += 1;
+            }
+          });
+        });
+        if (cont == 0) {
+          this.submit();
+        }
+        else {
+          this.presentAlert('Preencha todos os campos', ' ');
+        }
+        break;
+      case 1:
+        if (this.respostas[0].faixa != '' && this.respostas[0].genero != '' && this.respostas[0].consumo != '') {
+          this.passos = { ...this.passos, id: id };
+        }
+        else {
+          this.presentAlert('Preencha todos os campos', ' ');
+        }
+        break;
+      default:
+        var cont = 0;
+        this.respostas[0].amostras[amostra].escalas.forEach((am) => {
+          am.respostas.forEach((re) => {
+            if (re.valor == 0) {
+              cont += 1;
+            }
+          });
+        });
+        if (cont == 0) {
+          this.passos = { ...this.passos, id: id };
+        }
+        else {
+          this.presentAlert('Preencha todos os campos', ' ');
+        }
+    }
+  }
+
+  anterior(id: number) {
+    this.passos = { ...this.passos, id: id };
+  }
+
   async presentAlert(message, finalizar?) {
     const alert = await this.alertController.create({
       cssClass: 'alerta',
-      header: (finalizar? finalizar : "Erro"),
+      header: (finalizar ? finalizar : "Erro"),
       message: message,
       buttons: [
         {
@@ -57,12 +114,18 @@ export class AnalisePage implements OnInit {
     this.nativePageTransitions.fade(options)
       .catch(console.error);
     this.escolherAnalise = true;
+    this.instrucoes = false;
+    this.passos = {
+      id: 0,
+      err: ''
+    }
     this.analise = {};
+    this.allAnalises = [];
     this.amostras = [];
     this.escalas = [];
-    this.respostas = []
+    this.respostas = [];
   }
-  async getAnalise(id) {
+  async getAnalise(e) {
     let options: NativeTransitionOptions = {
       direction: 'left',
       duration: 400,
@@ -73,18 +136,26 @@ export class AnalisePage implements OnInit {
       message: 'Carregando',
     });
     load.present();
-    await this.analiseService.getAllAnalise(id).then(data => {
+    await this.analiseService.getAnaliseByCode(this.codigo_analise).then(data => {
       console.log(data);
       if (data[0]) {
         this.analise = data[0];
         if (data[0].amostras) {
           this.amostras = data[0].amostras;
           this.escalas = data[0].amostras[0].escalas;
+          this.codigo_analise = '';
+          this.instrucoes = true;
+          this.escolherAnalise = false;
+          e.target.className = "form-control";
         }
         else {
           this.amostras = [];
           this.escalas = [];
         }
+      }
+      else {
+        console.log(e)
+        e.target.className = "form-control is-invalid";
       }
     }, (err) => {
       setTimeout(() => {
@@ -93,7 +164,6 @@ export class AnalisePage implements OnInit {
       this.presentAlert("Ocorreu um erro ao carregar os dados");
     });
     if (this.amostras) {
-      this.escolherAnalise = false;
       let amostras = [];
       this.amostras.forEach(amostra => {
         let escalas = [];
@@ -106,26 +176,8 @@ export class AnalisePage implements OnInit {
         });
         amostras.push({ id: amostra.id_amostra, escalas: escalas });
       });
-      this.respostas[0] = ({ analise: id, nome: '', faixa: 0, consumo: 0, amostras: amostras });
+      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras });
     }
-    load.dismiss();
-  }
-
-  async carregarAnalises() {
-    let load = await this.loading.create({
-      message: 'Carregando',
-    });
-    load.present();
-    await this.analiseService.getActiveAnalises().then(res => {
-      if (res) {
-        this.allAnalises = res;
-      }
-    }, (err) => {
-      setTimeout(() => {
-        load.dismiss();
-      }, 2000);
-      this.presentAlert("Ocorreu um erro ao carregar os dados");
-    });
     load.dismiss();
   }
 
@@ -138,22 +190,12 @@ export class AnalisePage implements OnInit {
     form.append("saveRespostas", (JSON.stringify(this.respostas[0])));
     await this.analiseService.saveRespostas(form).then(res => {
       this.presentAlert("Obrigado por participar da pesquisa !!! 😉", ' ');
-      this.sair();      
+      this.sair();
     }, (err) => {
-      setTimeout(() => {
-        load.dismiss();
-      }, 2000);
+      load.dismiss();
       this.presentAlert("Ocorreu um erro ao salvar os dados");
     });
     load.dismiss();
-  }
-
-  doRefresh(event) {
-    setTimeout(() => {
-      this.carregarAnalises();
-      event.target.complete();
-    }, 2000);
-
   }
 
   bg(i) {

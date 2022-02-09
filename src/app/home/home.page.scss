@@ -2,58 +2,91 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url('/assets/bgHome.jpg');
-  background-size: cover;
-  background-position: center;
-  overflow: scroll;
+  //background-image: url('/assets/bgHome.jpg');
+  //background-size: cover;
+  //background-position: center;
+  background-color: white;
+  overflow: auto;
 }
 
 #over{    
   position: absolute;
-  width: 100%;
-  height: 100%;    
-  background: linear-gradient(to top, rgb(0,0,0), rgba(0,0,0,0.800), rgba(0,0,0,0.700), rgba(0,0,0,0.600));  
+  width: 100vw;
+  min-height: 450px;
+  height: 100vh;    
+  //background: linear-gradient(to top, rgb(0,0,0), rgba(0,0,0,0.800), rgba(0,0,0,0.700), rgba(0,0,0,0.600));  
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center; 
   text-align: center;  
-  overflow: scroll;
-  padding-bottom: 100px;
 }
 #over img{
   width: 150px;
   height: 150px;
-  margin-top: 130px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
-#over button{
+.btn-analise{
   outline: thin dotted;
   outline: 0px auto -webkit-focus-ring-color;
   outline-offset: 0px;
   width: 300px;    
-  
-  font-size: 17px;
+
+  font-size: 20px;
+  font-weight: bold;
   color: #303030;
-  //background-color: #47D5C9;
+  //background-color: #47D5C9; 
   border-radius: 5px;
   margin-bottom: 25px;
   padding-top: 15px;
   padding-bottom: 15px;
+  -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+		-moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+		box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
 }
 #over button:focus{
-  background-color: #66d1c8e0;
+  opacity: 0.5;
+  -webkit-box-shadow: 0px 10px 7px rgba(0, 0, 0, 0.45);
+		-moz-box-shadow:    0px 10px 7px rgba(0, 0, 0, 0.45);
+		box-shadow:         0px 10px 7px rgba(0, 0, 0, 0.45);
+}
+.btn-bot {
+  position: absolute !important;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  justify-content: space-evenly;
+  text-align: center;  
+
+}
+.btn-bot button {
+  outline: thin dotted;
+  outline: 0px auto -webkit-focus-ring-color;
+  outline-offset: 0px;
+  
+  font-size: 17px;
+  color: #303030;
+  //background-color: #47D5C9; 
+  border-radius: 5px;
+  margin-bottom: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  -webkit-box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.45);
+		-moz-box-shadow:    0px 1px 7px rgba(0, 0, 0, 0.45);
+		box-shadow:         0px 1px 7px rgba(0, 0, 0, 0.45);
 }
 @media only screen and (min-width: 700px) {
   #over img{
     margin-top: 200px;
     margin-bottom: 160px;
   }
-  #over button{  
+  .btn-analise{  
     padding-bottom: 25px;
     width: 430px;    
     font-size: 20px;
-    color: white;
-    background-color: #47D5C9;
     border-radius: 5px;
     margin-top: 25px;
     display: block;

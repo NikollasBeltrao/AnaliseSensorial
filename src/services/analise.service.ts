@@ -16,6 +16,12 @@ export class AnaliseService {
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }
+    getAnaliseByCode(code) {
+        return new Promise<any>((resolve, reject) => {
+            this.http.get(this.server + "/analise/analise.php", { params: { getByCode: code } }).
+                subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
+        });
+    }
     getAll() {
         return new Promise<any>((resolve, reject) => {
             this.http.get(this.server + "/analise/analise.php", { params: { getAll: "all" } }).
