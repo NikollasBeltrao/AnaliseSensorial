@@ -39,13 +39,15 @@
                     <input id="{{a.id_analise}}" class="switch switch--shadow" type="checkbox" [checked]="a.status == 1 ? true : false " (click)="switch($event, a.id_analise)" />
                     <label for="{{a.id_analise}}"></label>
                 </div>
+                <br>    
+                <strong>Cod:</strong>
+                <small>{{a.codigo}}</small>
                 <br>
                 <strong>Descrição:</strong>
-                <p class="mb-1" class="desc">{{a.desc_analise}}</p>
-
+                <p class="mb-1" class="desc">{{a.desc_analise}}</p>                
             </div>
             <div class="data text-muted text-center">
-                <small>{{a.data}}</small>
+                <small>{{converterData(a.data)}}</small>
             </div>
         </li>
 

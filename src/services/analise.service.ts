@@ -34,9 +34,9 @@ export class AnaliseService {
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }
-    getAllAnalises() {
+    getAllAnalises(user) {
         return new Promise<any>((resolve, reject) => {
-            this.http.get(this.server + "/analise/analise.php", { params: { getAnalises: "analises" } }).
+            this.http.get(this.server + "/analise/analise.php", { params: { getAnalises: "analises", user: user } }).
                 subscribe(snapshots => { resolve(snapshots); }, err => { reject(err) })
         });
     }

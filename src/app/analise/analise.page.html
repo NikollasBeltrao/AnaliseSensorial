@@ -32,6 +32,7 @@
   <div class="tab-pane instrucoes" *ngIf="instrucoes">
     <div class="form-row" *ngIf="passos.id == 0">
       <div class="col-12">
+        Instruções: <br>
         {{analise.desc_analise}}
       </div>
       <button id="1" class="btn" (click)="instrucoes = false  ">Ok entendi</button>

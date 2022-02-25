@@ -28,13 +28,18 @@ export class ListarAnalisesPage implements OnInit {
       message: 'Carregando',
     });
     load.present();
-    await this.analiseService.getAllAnalises().then(data => {
+    await this.analiseService.getAllAnalises(this.idUser).then(data => {
       this.analises = data;
     }, err => {
       this.presentAlert("Erro ao alterar o status");
     });
     load.dismiss();
   }
+
+  converterData(data) {
+    return new Date(data.replace('-', '/')).toLocaleDateString();
+  }
+
   doRefresh(event) {
     setTimeout(async () => {
       await this.load();
