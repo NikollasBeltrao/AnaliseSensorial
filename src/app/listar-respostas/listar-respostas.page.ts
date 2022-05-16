@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnaliseService } from 'src/services/analise.service';
-import chartJs from 'chart.js';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
+import { Chart, registerables } from 'chart.js';
+
 @Component({
   selector: 'app-listar-respostas',
   templateUrl: './listar-respostas.page.html',
@@ -13,21 +14,29 @@ import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/na
 export class ListarRespostasPage implements OnInit {
   analise: Array<any>;
   amostras: Array<any>;
-  @ViewChild('barCanvas') barCanvas;
-  @ViewChild('pieCanvas') pieCanvas;
   constructor(private analiseService: AnaliseService, private active: ActivatedRoute, private route: Router,
     private photoViewer: PhotoViewer, public loading: LoadingController, public alertController: AlertController,
-    private navCtrl: NavController, private nativePageTransitions: NativePageTransitions) { }
+    private navCtrl: NavController, private nativePageTransitions: NativePageTransitions) {
+    Chart.register(...registerables);
+  }
   barchar: any;
   barchar2: any;
   piechar: any;
   idUser = '';
   err = "";
   bgs = ['bg-azul', 'bg-laranja', 'bg-rosa', 'bg-amarelo'];
+  segment = 0;
   ngOnInit() {
     this.carregarRespostas();
   }
+
+  segmentChanged(e) {
+    console.log(this.segment);
+  }
+
   async carregarRespostas() {
+    const div = <HTMLElement>document.getElementById("graficos");
+    div.innerHTML = '';
     let load = await this.loading.create({
       message: 'Carregando',
     });
@@ -38,6 +47,27 @@ export class ListarRespostasPage implements OnInit {
         this.analise = data;
         console.log(data);
         this.amostras = data[0].amostras;
+        data[0].amostras.forEach((am) => {
+          am.escalas.forEach((es) => {
+            es.atributos.forEach((at) => {
+              let hed = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+              let com = [0,0,0,0,0];
+              if (es.tipo_escala == 'hedonica') {
+                es.escala_resposta.forEach((re) => {
+                  let res = re.respostas[at.posicao_atributo - 1];
+                  hed[res.valor_resposta - 1] += 1;
+                })
+              }
+              else if (es.tipo_escala == 'compra') {
+                es.escala_resposta.forEach((re) => {
+                  let res = re.respostas[at.posicao_atributo - 1];
+                  com[res.valor_resposta - 1] += 1;
+                })
+              }
+              this.gerarGrafico(es.tipo_escala, (es.tipo_escala == 'hedonica'? hed : com), "Amostra: " + am.numero_amostra + "/" + es.nome_escala + "-" + at.nome_atributo);
+            })
+          });
+        });
       }, err => {
         this.presentAlert("Erro ao carregar os dados");
         this.navCtrl.back();
@@ -51,15 +81,7 @@ export class ListarRespostasPage implements OnInit {
   }
   //ngAfterViewInit
   ngAfterViewIni() {
-    setTimeout(() => {
-      this.barchar = this.getBarChart();
-      this.barchar2 = this.getBarChart();
-    }, 150
-    );
-    setTimeout(() => {
-      this.piechar = this.getPieChart();
-    }, 150
-    );
+
   }
 
   doRefresh(event) {
@@ -69,56 +91,6 @@ export class ListarRespostasPage implements OnInit {
     }, 2000);
   }
 
-  getChart(centext, chartType, data, options?) {
-    return new chartJs(centext, {
-      data,
-      options,
-      type: chartType
-    })
-  }
-  getBarChart() {
-    const data = {
-      labels: ['Cor', 'Doçura', 'Sabor', 'Textura', 'IG'],
-      datasets: [{
-        label: this.amostras[0].nome_amostra,
-        data: [this.amostras[0].hedonica[0].cor, this.amostras[0].hedonica[0].docura, this.amostras[0].hedonica[0].sabor, this.amostras[0].hedonica[0].textura, this.amostras[0].hedonica[0].impressaoG],
-        backgroundColor: [
-          'rgb(184, 8, 8)',
-          'rgb(15, 11, 250)',
-          'rgb(112, 8, 8)',
-          'rgb(222, 8, 8)',
-          'rgb(125, 11, 250)'
-        ],
-        boderWidth: 1
-      }]
-    }
-    const options = {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
-    return this.getChart(this.barCanvas.nativeElement, 'bar', data, options);
-  }
-  getPieChart() {
-    const media = parseInt(this.amostras[0].hedonica[0].cor) + parseInt(this.amostras[0].hedonica[0].docura) +
-      parseInt(this.amostras[0].hedonica[0].sabor) + parseInt(this.amostras[0].hedonica[0].textura) + parseInt(this.amostras[0].hedonica[0].impressaoG);
-    console.log(media);
-    const data = {
-      labels: ['Amostra: ' + this.amostras[0].numero_amostra, 'azul'],
-      datasets: [{
-        data: [(media / 5), 23],
-        backgroundColor: [
-          'rgb(184, 8, 8)',
-          'rgb(15, 11, 250)',
-        ],
-      }]
-    }
-    return this.getChart(this.pieCanvas.nativeElement, 'pie', data);
-  }
   goHome() {
     this.back();
     this.route.navigate(["usuario-logado", { id_user: this.idUser }]);
@@ -131,7 +103,7 @@ export class ListarRespostasPage implements OnInit {
     this.back();
     this.route.navigate(["home"]);
   }
-  nextPage(){
+  nextPage() {
     let options: NativeTransitionOptions = {
       direction: 'left',
       duration: 400,
@@ -139,7 +111,7 @@ export class ListarRespostasPage implements OnInit {
     this.nativePageTransitions.slide(options)
       .catch(console.error);
   }
-  back(){
+  back() {
     let options: NativeTransitionOptions = {
       direction: 'right',
       duration: 400,
@@ -169,5 +141,62 @@ export class ListarRespostasPage implements OnInit {
       return i % this.bgs.length;
     }
     return i;
+  }
+  gerarGrafico(escala, data, title) {
+    const div = <HTMLElement>document.getElementById("graficos");
+    const ctx = <HTMLCanvasElement>document.createElement("canvas");
+    const h2 = <HTMLElement>document.createElement("h2");
+    h2.innerHTML = title;
+    div.appendChild(h2);
+    ctx.height = 400;
+    ctx.width = 400;
+    const myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: (escala == "hedonica" ? ["Desgostei muitíssimo", "Desgostei muito", "Desgostei moderadamente", "Desgostei ligeiramente", "Nem gostei / nem desgostei",
+      "Gostei ligeiramente", "Gostei moderadamente", "Gostei muito", "Gostei muitíssimo"] :
+          escala == "compra" ? ["Certamente não compraria", "Provavelmente não compraria", "Tenho dúvida se compraria",
+        "Provavelmente compraria", "Certamente compraria"] : ["Preferência"]),
+        datasets: [{
+          label: 'title',  
+          data: data,
+          backgroundColor: [
+            'rgb(255, 0, 0)',
+            'rgb(0, 255, 0)',
+            'rgb(0, 0, 255)',
+            'rgb(255, 115, 0)',
+            'rgb(255, 0, 191)',
+            'rgb(0, 225, 255)',
+            'rgb(183, 0, 255)',
+            'rgb(255, 251, 0)',
+            'rgb(0, 110, 255)',
+            'rgb(183, 0, 255)',
+            'rgb(208, 255, 0)',
+          ],
+          borderColor: [
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+            'rgb(158, 158, 158)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    div.appendChild(ctx);
   }
 }

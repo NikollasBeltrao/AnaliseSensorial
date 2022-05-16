@@ -25,13 +25,17 @@ export class CriarAnalisePage implements OnInit {
       titulo: new FormControl('', Validators.required),
       hedonica: new FormControl(''),
       compra: new FormControl(''),
+      preferencia: new FormControl(''),
       desc: new FormControl(''),
       atributosHedonica: new FormControl([]),
       atributosCompra: new FormControl([]),
       aux_atributos: new FormControl(''),
+      atributosPreferencia: new FormControl([]),
+      aux_atributos_preferencia: new FormControl(''),
       descCompra: new FormControl('Agora avalie quanto à sua atitude de compra'),
       descHedonica: new FormControl('Você está recebendo ---- amostras de -----. Avalie cada amostra e utilize a escala abaixo para identificar o quanto você gostou/desgostou ' +
       'de cada amostra quanto à ----, ----, ----, ---- e ----. Prove as amostras da esquerda para direita.'),
+      descPreferencia: new FormControl('Você está recebendo ---- amostras de -----. Por favor, prove as amostras da esquerda para direita e selecione a mais -----.'),
     });
   }
 
@@ -47,6 +51,19 @@ export class CriarAnalisePage implements OnInit {
     if (aux.length > 0) {
       aux.split(', ').forEach(el => {
         this.fGroup.value.atributosHedonica.push({
+          display: el,
+          value: el
+        });
+      });
+    }    
+  }
+
+  alterar_atributos_preferencia(){
+    this.fGroup.value.atributosPreferencia.splice(0, this.fGroup.value.atributosPreferencia.length);
+    let aux = this.fGroup.value.aux_atributos_preferencia;
+    if (aux.length > 0) {
+      aux.split(', ').forEach(el => {
+        this.fGroup.value.atributosPreferencia.push({
           display: el,
           value: el
         });
@@ -75,10 +92,12 @@ export class CriarAnalisePage implements OnInit {
     this.validar = true;
     if (this.fGroup.valid && 
       ((this.fGroup.value.hedonica && this.fGroup.value.descHedonica != '' && this.fGroup.controls.atributosHedonica.value.length > 0) 
-      || (this.fGroup.value.compra && this.fGroup.value.descCompra != ''))) {
+      || (this.fGroup.value.compra && this.fGroup.value.descCompra != '') || 
+      (this.fGroup.value.preferencia && this.fGroup.value.descPreferencia != '' && this.fGroup.controls.atributosPreferencia.value.length > 0))) {
       let form = new FormData();
       var hed;
       var com;
+      var pref;
       if (this.fGroup.value.hedonica) {
         hed = 1;
       }
@@ -91,13 +110,22 @@ export class CriarAnalisePage implements OnInit {
       else {
         com = 0;
       }
+      if (this.fGroup.value.preferencia) {
+        pref = 1;
+      }
+      
+      else {
+        pref = 0;
+      }
       form.append("desc", this.fGroup.value.desc);
       form.append("titulo", this.fGroup.value.titulo);
       form.append("user", this.idUser);
       form.append("hedonica", hed);
       form.append("compra", com);
+      form.append("preferencia", pref);
       form.append("desc_hed", this.fGroup.value.descHedonica);
       form.append("desc_com", this.fGroup.value.descCompra);
+      form.append("desc_pref", this.fGroup.value.descPreferencia);
       if (this.fGroup.value.compra) {
         this.fGroup.value.atributosCompra = ['Atitude de Compra'];
       }      
@@ -108,6 +136,14 @@ export class CriarAnalisePage implements OnInit {
       });
       this.fGroup.value.atributosHedonica = atributosH;
       form.append("atributos-hedonica", this.fGroup.value.atributosHedonica);
+
+      var atributosP = [];
+      this.fGroup.value.atributosPreferencia.forEach(element => {
+        atributosP.push(element["value"]);
+      });
+      this.fGroup.value.atributosPreferencia = atributosP;
+      form.append("atributos-preferencia", this.fGroup.value.atributosPreferencia);
+
       let idAnalise;
       let load = await this.loadingCtrl.create({
         message: 'Carregando',

@@ -48,6 +48,10 @@
       <li class="nav-item displayNone" *ngFor="let amostra of amostras; let j = index">
         <a class="nav-link" id=tpasso{{j+1}} data-toggle="tab" href=#passo{{j+1}} role="tab" aria-selected="false"></a>
       </li>
+      <li *ngIf="respostas[0].preferencia.id" class="nav-item displayNone">
+        <a class="nav-link" id=tpasso{{amostras.length+1}} data-toggle="tab" href=#passo{{amostras.length+1}} role="tab"
+          aria-selected="false"></a>
+      </li>
     </ul>
 
     <form class="needs-validation" novalidate>
@@ -115,10 +119,10 @@
             </div>
 
             <div class="card" *ngFor="let escala of amosta.escalas; let i = index">
-              <label class="card-header {{bgs[bg(a)]}}">
+              <label *ngIf="escala.tipo_escala != 'preferencia'" class="card-header {{bgs[bg(a)]}}">
                 {{escala.nome_escala}}
               </label>
-              <div class="card-body">
+              <div *ngIf="escala.tipo_escala != 'preferencia'" class="card-body">
                 <div class="form-row">
 
                   <div class="form-group col-md-6" *ngFor="let atributo of escala.atributos; let j = index">
@@ -145,6 +149,7 @@
                       <option value="2">2. Desgostei muito</option>
                       <option value="1">1. Desgostei muitíssimo</option>
                     </select>
+
                   </div>
                 </div>
 
@@ -152,16 +157,45 @@
             </div>
             <div class="col-12">
               <button class="anterior btn" id="{{a}}" (click)="anterior(a)">Anterior </button>
-              <button *ngIf="!isLast" class="proximo btn" id="{{a+2}}" (click)="proximo(a+2, a)">Próximo</button>
-              <button *ngIf="isLast" class="btn proximo" (click)="proximo(-1, a)">Finalizar</button>
+              <button *ngIf="!isLast || respostas[0].preferencia.id" class="proximo btn" id="{{a+2}}"
+                (click)="proximo(a+2, a)">Próximo</button>
+              <button *ngIf="isLast && !respostas[0].preferencia.id" class="btn proximo"
+                (click)="proximo(-1, a)">Finalizar</button>
             </div>
 
           </div>
 
         </div>
+        <div *ngIf="respostas[0].preferencia.id" class="tab-pane fade show active" id=passo{{amostras.length+1}} role="tabpanel">
+          <div class="form-row formC" *ngIf="passos.id == (amostras.length+1)">
+            <div class="col-12">
+              <h3 class="nome">{{respostas[0].preferencia.nome_escala}}</h3>
+              <p class="justificar">{{respostas[0].preferencia.desc_escala}}</p>
+            </div>
+            <div class="card">         
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-6"
+                    *ngFor="let atributo of respostas[0].preferencia.atributos; let j = index">
+                    <label for="validationTooltip02">{{atributo.nome_atributo}}</label>
+                    <select class="custom-select" [(ngModel)]="respostas[0].preferencia.respostas[j].valor" name="c">
+                      <option value="0">Escolha uma amostra</option>
+                      <option *ngFor="let am of amostras" value={{am.numero_amostra}}>Amostra
+                        {{am.numero_amostra}}</option>
 
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="anterior btn" id="{{amostras.length}}" (click)="anterior(amostras.length)">Anterior
+              </button>
+              <button class="btn proximo" (click)="proximo(-2, amostras.length)">Finalizar</button>
+            </div>
+          </div>
 
-
+        </div>
       </div>
     </form>
 

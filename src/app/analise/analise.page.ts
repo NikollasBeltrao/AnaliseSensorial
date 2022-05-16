@@ -41,11 +41,25 @@ export class AnalisePage implements OnInit {
   }
   proximo(id: number, amostra?: number) {
     switch (id) {
+      case -2:
+        var cont = 0;
+        this.respostas[0].preferencia.respostas.forEach((re) => {
+          if (re.valor == 0) {
+            cont += 1;
+          } 
+        });
+        if (cont == 0) {
+          this.submit();
+        }
+        else {
+          this.presentAlert('Preencha todos os campos', ' ');
+        }
+        break;
       case -1:
         var cont = 0;
         this.respostas[0].amostras[amostra].escalas.forEach((am) => {
           am.respostas.forEach((re) => {
-            if (re.valor == 0) {
+            if (re.valor == 0 && am.tipo != "preferencia") {
               cont += 1;
             }
           });
@@ -69,12 +83,13 @@ export class AnalisePage implements OnInit {
         var cont = 0;
         this.respostas[0].amostras[amostra].escalas.forEach((am) => {
           am.respostas.forEach((re) => {
-            if (re.valor == 0) {
+            if (re.valor == 0 && am.tipo != "preferencia") {
               cont += 1;
             }
           });
         });
         if (cont == 0) {
+          console.log(id, this.amostras.length + 1)
           this.passos = { ...this.passos, id: id };
         }
         else {
@@ -137,9 +152,9 @@ export class AnalisePage implements OnInit {
     });
     load.present();
     await this.analiseService.getAnaliseByCode(this.codigo_analise).then(data => {
-      console.log(data);
       if (data[0]) {
         this.analise = data[0];
+        console.log(data[0]);
         if (data[0].amostras) {
           this.amostras = data[0].amostras;
           this.escalas = data[0].amostras[0].escalas;
@@ -164,6 +179,7 @@ export class AnalisePage implements OnInit {
       this.presentAlert("Ocorreu um erro ao carregar os dados");
     });
     if (this.amostras) {
+      let preferencia = {};
       let amostras = [];
       this.amostras.forEach(amostra => {
         let escalas = [];
@@ -172,12 +188,16 @@ export class AnalisePage implements OnInit {
           escala.atributos.forEach(atributo => {
             respostas.push({ posicao: atributo.posicao_atributo, valor: 0 });
           });
-          escalas.push({ id: escala.id_escala, respostas: respostas });
+          escalas.push({ id: escala.id_escala, respostas: respostas, tipo: escala.tipo_escala });
+          if (escala.tipo_escala == 'preferencia') {
+            preferencia = { id: escala.id_escala, nome_escala: escala.nome_escala, desc_escala: escala.desc_escala, respostas: respostas, atributos: escala.atributos };
+          }
         });
         amostras.push({ id: amostra.id_amostra, escalas: escalas });
       });
-      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras });
+      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras, preferencia: preferencia });
     }
+    console.log(this.respostas[0]);
     load.dismiss();
   }
 
@@ -194,6 +214,7 @@ export class AnalisePage implements OnInit {
     }, (err) => {
       load.dismiss();
       this.presentAlert("Ocorreu um erro ao salvar os dados");
+      console.log(err)
     });
     load.dismiss();
   }

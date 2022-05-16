@@ -33,7 +33,7 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/pwa-elements": "^3.0.1",
     "bootstrap": "^5.0.0-beta1",
-    "chart.js": "^2.9.3",
+    "chart.js": "^3.7.1",
     "cordova": "^10.0.0",
     "cordova-android": "9.0.0",
     "ngx-chips": "^2.2.2",
