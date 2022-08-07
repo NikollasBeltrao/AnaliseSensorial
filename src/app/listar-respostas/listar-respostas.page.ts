@@ -69,6 +69,7 @@ export class ListarRespostasPage implements OnInit {
           });
         });
       }, err => {
+        console.log(err)
         this.presentAlert("Erro ao carregar os dados");
         this.navCtrl.back();
       })
@@ -161,30 +162,19 @@ export class ListarRespostasPage implements OnInit {
           label: 'title',  
           data: data,
           backgroundColor: [
-            'rgb(255, 0, 0)',
-            'rgb(0, 255, 0)',
-            'rgb(0, 0, 255)',
-            'rgb(255, 115, 0)',
-            'rgb(255, 0, 191)',
-            'rgb(0, 225, 255)',
-            'rgb(183, 0, 255)',
-            'rgb(255, 251, 0)',
-            'rgb(0, 110, 255)',
-            'rgb(183, 0, 255)',
-            'rgb(208, 255, 0)',
+            'rgb(161, 159, 165)',
+            'rgb(242, 232, 218)',
+            'rgb(245, 198, 200)',
+            'rgb(168, 147, 192)',
+            'rgb(186, 153, 114)',
+            'rgb(54, 54, 45)',
+            'rgb(136, 129, 164)',
+            'rgb(162, 184, 212)',
+            'rgb(250, 158, 147)',
+            'rgb(174, 84, 89)',
           ],
           borderColor: [
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
-            'rgb(158, 158, 158)',
+            'gray',            
           ],
           borderWidth: 1
         }]

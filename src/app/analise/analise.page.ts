@@ -179,7 +179,7 @@ export class AnalisePage implements OnInit {
       this.presentAlert("Ocorreu um erro ao carregar os dados");
     });
     if (this.amostras) {
-      let preferencia = {};
+      let preferenciaa = {};
       let amostras = [];
       this.amostras.forEach(amostra => {
         let escalas = [];
@@ -189,13 +189,13 @@ export class AnalisePage implements OnInit {
             respostas.push({ posicao: atributo.posicao_atributo, valor: 0 });
           });
           escalas.push({ id: escala.id_escala, respostas: respostas, tipo: escala.tipo_escala });
-          if (escala.tipo_escala == 'preferencia') {
-            preferencia = { id: escala.id_escala, nome_escala: escala.nome_escala, desc_escala: escala.desc_escala, respostas: respostas, atributos: escala.atributos };
+          if (escala.tipo_escala == 'preferencia') { // o erro ta aqui 
+            preferenciaa = { id: escala.id_escala, nome_escala: escala.nome_escala, desc_escala: escala.desc_escala, respostas: respostas, atributos: escala.atributos };
           }
         });
         amostras.push({ id: amostra.id_amostra, escalas: escalas });
       });
-      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras, preferencia: preferencia });
+      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras, preferencia: preferenciaa });
     }
     console.log(this.respostas[0]);
     load.dismiss();
@@ -211,6 +211,7 @@ export class AnalisePage implements OnInit {
     await this.analiseService.saveRespostas(form).then(res => {
       this.presentAlert("Obrigado por participar da pesquisa !!! 😉", ' ');
       this.sair();
+      console.log(res)
     }, (err) => {
       load.dismiss();
       this.presentAlert("Ocorreu um erro ao salvar os dados");
