@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
 import { AnaliseService } from 'src/services/analise.service';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
+import { isEmptyObject } from 'jquery';
 @Component({
   selector: 'app-analise',
   templateUrl: './analise.page.html',
@@ -20,6 +21,7 @@ export class AnalisePage implements OnInit {
   respostas = [];
   allAnalises: Array<any>;
   amostras: Array<any>;
+  preferencia;
   escalas: Array<any>
   escolherAnalise = true;
   instrucoes = false;
@@ -28,11 +30,12 @@ export class AnalisePage implements OnInit {
   constructor(private analiseService: AnaliseService, public loading: LoadingController, private router: Router,
     public alertController: AlertController, private nativePageTransitions: NativePageTransitions) {
     this.analise = {};
+    this.preferencia = {};
     this.allAnalises = [];
   }
 
   ngOnInit() {
-
+    
   }
   getByCode(e) {
     if (this.codigo_analise.length == 6) {
@@ -46,7 +49,7 @@ export class AnalisePage implements OnInit {
         this.respostas[0].preferencia.respostas.forEach((re) => {
           if (re.valor == 0) {
             cont += 1;
-          } 
+          }
         });
         if (cont == 0) {
           this.submit();
@@ -154,8 +157,9 @@ export class AnalisePage implements OnInit {
     await this.analiseService.getAnaliseByCode(this.codigo_analise).then(data => {
       if (data[0]) {
         this.analise = data[0];
-        console.log(data[0]);
+        //console.log("Analise", data[0]);
         if (data[0].amostras) {
+          this.preferencia = data[0].preferencia;
           this.amostras = data[0].amostras;
           this.escalas = data[0].amostras[0].escalas;
           this.codigo_analise = '';
@@ -178,26 +182,35 @@ export class AnalisePage implements OnInit {
       }, 2000);
       this.presentAlert("Ocorreu um erro ao carregar os dados");
     });
+
     if (this.amostras) {
-      let preferenciaa = {};
       let amostras = [];
       this.amostras.forEach(amostra => {
         let escalas = [];
         amostra.escalas.forEach(escala => {
-          let respostas = [];
-          escala.atributos.forEach(atributo => {
-            respostas.push({ posicao: atributo.posicao_atributo, valor: 0 });
-          });
-          escalas.push({ id: escala.id_escala, respostas: respostas, tipo: escala.tipo_escala });
-          if (escala.tipo_escala == 'preferencia') { // o erro ta aqui 
-            preferenciaa = { id: escala.id_escala, nome_escala: escala.nome_escala, desc_escala: escala.desc_escala, respostas: respostas, atributos: escala.atributos };
-          }
+          //if (escala.tipo_escala != 'preferencia') {
+            let respostas = [];
+            escala.atributos.forEach(atributo => {
+              respostas.push({ posicao: atributo.posicao_atributo, valor: 0 });
+            });
+            escalas.push({ id: escala.id_escala, respostas: respostas, tipo: escala.tipo_escala });
+            //preferenciaa = { id: escala.id_escala, nome_escala: escala.nome_escala, desc_escala: escala.desc_escala, respostas: respostas, atributos: escala.atributos };
+         // }
         });
         amostras.push({ id: amostra.id_amostra, escalas: escalas });
       });
-      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras, preferencia: preferenciaa });
+      this.respostas[0] = ({ analise: this.analise.id_analise, genero: '', nome: '', faixa: 0, consumo: 0, amostras: amostras });
     }
-    console.log(this.respostas[0]);
+    if (this.preferencia != 0) {
+      let pref = {};
+      let respostas = [];
+      this.preferencia.atributos.forEach(atributo => {
+        respostas.push({ posicao: atributo.posicao_atributo, valor: 0 });
+      });
+      pref = { id: this.preferencia.id_escala, nome_escala: this.preferencia.nome_escala, desc_escala: this.preferencia.desc_escala, respostas: respostas, atributos: this.preferencia.atributos };
+      this.respostas[0] = ({ ...this.respostas[0], preferencia: pref })
+    }
+    console.log("asda", this.respostas[0]);
     load.dismiss();
   }
 

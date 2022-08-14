@@ -13,6 +13,7 @@ import { Chart, registerables } from 'chart.js';
 })
 export class ListarRespostasPage implements OnInit {
   analise: Array<any>;
+  preferencia: any = {};
   amostras: Array<any>;
   constructor(private analiseService: AnaliseService, private active: ActivatedRoute, private route: Router,
     private photoViewer: PhotoViewer, public loading: LoadingController, public alertController: AlertController,
@@ -35,6 +36,7 @@ export class ListarRespostasPage implements OnInit {
   }
 
   async carregarRespostas() {
+    this.preferencia = {};
     const div = <HTMLElement>document.getElementById("graficos");
     div.innerHTML = '';
     let load = await this.loading.create({
@@ -46,12 +48,28 @@ export class ListarRespostasPage implements OnInit {
       await this.analiseService.getAnalise(params['id']).then(data => {
         this.analise = data;
         console.log(data);
+        this.preferencia = data[0].preferencia;
         this.amostras = data[0].amostras;
+        if (this.preferencia != 0) {
+          let respostas_p = [];
+          this.preferencia.escala_resposta.forEach((er) => {
+            er.respostas.forEach((r) => {
+              respostas_p.push(r.valor_resposta);
+            })
+          })
+          let resPref = [];
+          let amos = [];
+          this.amostras.map(a => {
+            resPref.push(respostas_p.filter(x => x == a.numero_amostra).length);
+            amos.push(a.numero_amostra);
+          });
+          this.gerarGrafico(this.preferencia.tipo_escala, resPref, this.preferencia.tipo_escala, this.bgs[this.bg(0)], amos);
+        }
         data[0].amostras.forEach((am) => {
           am.escalas.forEach((es) => {
-            es.atributos.forEach((at) => {
+            es.atributos.forEach((at, index) => {
               let hed = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-              let com = [0,0,0,0,0];
+              let com = [0, 0, 0, 0, 0];
               if (es.tipo_escala == 'hedonica') {
                 es.escala_resposta.forEach((re) => {
                   let res = re.respostas[at.posicao_atributo - 1];
@@ -64,7 +82,7 @@ export class ListarRespostasPage implements OnInit {
                   com[res.valor_resposta - 1] += 1;
                 })
               }
-              this.gerarGrafico(es.tipo_escala, (es.tipo_escala == 'hedonica'? hed : com), "Amostra: " + am.numero_amostra + "/" + es.nome_escala + "-" + at.nome_atributo);
+              this.gerarGrafico(es.tipo_escala, (es.tipo_escala == 'hedonica' ? hed : com), "Amostra: " + am.numero_amostra + "/" + es.nome_escala + "-" + at.nome_atributo, this.bgs[this.bg(index)]);
             })
           });
         });
@@ -143,23 +161,35 @@ export class ListarRespostasPage implements OnInit {
     }
     return i;
   }
-  gerarGrafico(escala, data, title) {
+  gerarGrafico(escala, data, title, cor, pref?) {
     const div = <HTMLElement>document.getElementById("graficos");
+    //const div2 = <HTMLElement>document.createElement("card_g");
     const ctx = <HTMLCanvasElement>document.createElement("canvas");
-    const h2 = <HTMLElement>document.createElement("h2");
+    const h2 = <HTMLElement>document.createElement("div");
     h2.innerHTML = title;
+    h2.className = "h2_graficos " + cor;
+    h2.style.padding = '10px';
+    h2.style.textAlign = 'center';
+    h2.style.fontSize = '20px';
+    h2.style.fontWeight = 'bold';
+    h2.style.border = 'solid 1px gray';
+    h2.style.borderBottom = 'none';
+    //div2.className = "card_g";
     div.appendChild(h2);
     ctx.height = 400;
     ctx.width = 400;
+    ctx.style.margin = '0 0 40px 0';
+    ctx.style.border = 'solid 1px gray';
+    ctx.style.boxShadow = "0px 1px 7px rgba(0, 0, 0, 0.45)";
     const myChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: (escala == "hedonica" ? ["Desgostei muitíssimo", "Desgostei muito", "Desgostei moderadamente", "Desgostei ligeiramente", "Nem gostei / nem desgostei",
-      "Gostei ligeiramente", "Gostei moderadamente", "Gostei muito", "Gostei muitíssimo"] :
+          "Gostei ligeiramente", "Gostei moderadamente", "Gostei muito", "Gostei muitíssimo"] :
           escala == "compra" ? ["Certamente não compraria", "Provavelmente não compraria", "Tenho dúvida se compraria",
-        "Provavelmente compraria", "Certamente compraria"] : ["Preferência"]),
+            "Provavelmente compraria", "Certamente compraria"] : pref),
         datasets: [{
-          label: 'title',  
+          label: 'title',
           data: data,
           backgroundColor: [
             'rgb(161, 159, 165)',
@@ -174,7 +204,7 @@ export class ListarRespostasPage implements OnInit {
             'rgb(174, 84, 89)',
           ],
           borderColor: [
-            'gray',            
+            'gray',
           ],
           borderWidth: 1
         }]
@@ -188,5 +218,6 @@ export class ListarRespostasPage implements OnInit {
       }
     });
     div.appendChild(ctx);
+    //div.appendChild(div2);
   }
 }
