@@ -44,6 +44,8 @@
                 <p class="mb-1">{{a.desc_analise}}</p>
                 <strong>{{a.nome_user}} </strong>
                 <small>{{a.matricula_user}}</small>
+                <br>
+                <strong>Respostas: {{amostras[0].escalas[0].escala_resposta.length}}</strong>
             </li>
             <div class="card" *ngIf="this.preferencia != 0">
                 <li class="list-group-item {{bgs[bg(0)]}}">{{preferencia.nome_escala}}</li>
@@ -51,6 +53,7 @@
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Faixa etária</th>
                                 <th scope="col">Gênero</th>
@@ -62,7 +65,8 @@
 
                         </thead>
                         <tbody>
-                            <tr *ngFor=" let escalaR of preferencia.escala_resposta">
+                            <tr *ngFor=" let escalaR of preferencia.escala_resposta; let contador = index">
+                                <th scope="row">{{contador+1}}</th>
                                 <td>{{escalaR.nome_aluno}}</td>
                                 <td>{{escalaR.faixa_etaria}}</td>
                                 <td>{{escalaR.genero}}</td>
@@ -89,6 +93,7 @@
                         <table class="table table-bordered table-striped">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th scope="col">#</th>
                                     <th scope="col">Nome</th>
                                     <th scope="col">Faixa etária</th>
                                     <th scope="col">Gênero</th>
@@ -100,7 +105,8 @@
 
                             </thead>
                             <tbody>
-                                <tr *ngFor=" let escalaR of escala.escala_resposta">
+                                <tr *ngFor=" let escalaR of escala.escala_resposta; let contador2 = index">
+                                    <th scope="row">{{contador2+1}}</th>
                                     <td>{{escalaR.nome_aluno}}</td>
                                     <td>{{escalaR.faixa_etaria}}</td>
                                     <td>{{escalaR.genero}}</td>

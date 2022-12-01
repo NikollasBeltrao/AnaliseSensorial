@@ -5,6 +5,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-listar-respostas',
@@ -47,7 +48,7 @@ export class ListarRespostasPage implements OnInit {
       this.idUser = params['id_user'];
       await this.analiseService.getAnalise(params['id']).then(data => {
         this.analise = data;
-        console.log(data);
+        console.log(data[0].amostras);
         this.preferencia = data[0].preferencia;
         this.amostras = data[0].amostras;
         if (this.preferencia != 0) {
@@ -181,8 +182,12 @@ export class ListarRespostasPage implements OnInit {
     ctx.style.margin = '0 0 40px 0';
     ctx.style.border = 'solid 1px gray';
     ctx.style.boxShadow = "0px 1px 7px rgba(0, 0, 0, 0.45)";
+
+    Chart.register(ChartDataLabels);
+
+
     const myChart = new Chart(ctx, {
-      type: 'doughnut',
+      type: 'doughnut',      
       data: {
         labels: (escala == "hedonica" ? ["Desgostei muitíssimo", "Desgostei muito", "Desgostei moderadamente", "Desgostei ligeiramente", "Nem gostei / nem desgostei",
           "Gostei ligeiramente", "Gostei moderadamente", "Gostei muito", "Gostei muitíssimo"] :
@@ -190,32 +195,52 @@ export class ListarRespostasPage implements OnInit {
             "Provavelmente compraria", "Certamente compraria"] : pref),
         datasets: [{
           label: 'title',
+          hoverOffset: 10,
+          weight: 700,
           data: data,
+          borderJoinStyle: 'bevel',
           backgroundColor: [
             'rgb(161, 159, 165)',
             'rgb(242, 232, 218)',
             'rgb(245, 198, 200)',
             'rgb(168, 147, 192)',
             'rgb(186, 153, 114)',
-            'rgb(54, 54, 45)',
+            'rgb(248, 233, 154)',
             'rgb(136, 129, 164)',
             'rgb(162, 184, 212)',
             'rgb(250, 158, 147)',
             'rgb(174, 84, 89)',
           ],
           borderColor: [
-            'gray',
+            'white',
           ],
           borderWidth: 1
         }]
       },
       options: {
-        scales: {
-          y: {
-            beginAtZero: true
+        animation: {
+          animateScale: true,
+        },
+        spacing: 2,
+        cutout: 50,
+        plugins: {
+          datalabels: {
+            formatter: (value, ctx) => {
+
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data: number) => {
+                sum = sum + data;
+              });
+              let percentage = (value * 100 / sum).toFixed(1);
+              return value > 0 ? percentage + "%" : '';
+
+
+            },
+            color: 'rgb(0, 0, 0)',
           }
         }
-      }
+      },
     });
     div.appendChild(ctx);
     //div.appendChild(div2);
